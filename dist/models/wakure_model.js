@@ -70,7 +70,7 @@ class WakureModel {
         });
     }
     //update geolocation wakure
-    static updateWakure(wakure) {
+    static updateGeolocationWakure(wakure) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield wakure_schema_1.default.findOneAndUpdate({ id: wakure.id }, { geolocation: wakure.geolocation }, { new: true });

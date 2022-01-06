@@ -49,7 +49,10 @@ class WakureModel {
   }
 
   //update geolocation wakure
-  public static async updateWakure(wakure: IWakure): Promise<IWakure | null> {
+
+  public static async updateGeolocationWakure(
+    wakure: IWakure
+  ): Promise<IWakure | null> {
     try {
       return await Wakure.findOneAndUpdate(
         { id: wakure.id },

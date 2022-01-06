@@ -60,6 +60,89 @@ class WakureController {
             }
         });
     }
+    // update geolocation wakure
+    updateGeolocationWakure(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { body } = req;
+            const { id } = req.params;
+            //TODO validate
+            // verify if wakure exists
+            if (!(yield validator_1.default.verifyWakure(id))) {
+                res.status(400).json({
+                    msg: "wakure does not exists",
+                });
+                return;
+            }
+            // get wakure by id
+            let wakure;
+            try {
+                wakure = yield wakure_model_1.default.getWakureById(id);
+                if (wakure == null) {
+                    res.status(400).json({
+                        msg: "wakure does not exists",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // create object wakure
+            wakure = {
+                id: id,
+                name: wakure.name,
+                geolocation: {
+                    lat: body.lat,
+                    lng: body.lng,
+                },
+                booking: wakure.booking,
+                statusDB: wakure.statusDB,
+            };
+            // update geolocation wakure
+            try {
+                const result = yield wakure_model_1.default.updateGeolocationWakure(wakure);
+                if (result !== null) {
+                    res.status(200).json(result);
+                    return;
+                }
+                console.log(result + " updated");
+                res.status(500).json({ msg: "Algo pasó" });
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
+    // get geolocation wakure
+    getGeolocationWakure(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            // verify if wakure exists
+            if (!(yield validator_1.default.verifyWakure(id))) {
+                res.status(400).json({
+                    msg: "wakure does not exists",
+                });
+                return;
+            }
+            // get wakure by id
+            try {
+                const wakure = yield wakure_model_1.default.getWakureById(id);
+                if (wakure !== null) {
+                    res.status(200).json(wakure);
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
 }
 exports.wakureController = new WakureController();
 //# sourceMappingURL=wakure_controller.js.map

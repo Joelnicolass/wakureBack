@@ -55,6 +55,107 @@ class WakureController {
       return;
     }
   }
+
+  // update geolocation wakure
+
+  public async updateGeolocationWakure(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const { body } = req;
+    const { id } = req.params;
+
+    //TODO validate
+
+    // verify if wakure exists
+
+    if (!(await Validator.verifyWakure(id))) {
+      res.status(400).json({
+        msg: "wakure does not exists",
+      });
+      return;
+    }
+
+    // get wakure by id
+
+    let wakure: IWakure | null;
+
+    try {
+      wakure = await WakureModel.getWakureById(id);
+      if (wakure == null) {
+        res.status(400).json({
+          msg: "wakure does not exists",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // create object wakure
+
+    wakure = <IWakure>{
+      id: id,
+      name: wakure.name,
+      geolocation: {
+        lat: body.lat,
+        lng: body.lng,
+      },
+      booking: wakure.booking,
+      statusDB: wakure.statusDB,
+    };
+
+    // update geolocation wakure
+
+    try {
+      const result = await WakureModel.updateGeolocationWakure(wakure);
+
+      if (result !== null) {
+        res.status(200).json(result);
+        return;
+      }
+      console.log(result + " updated");
+      res.status(500).json({ msg: "Algo pasó" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+  // get geolocation wakure
+
+  public async getGeolocationWakure(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const { id } = req.params;
+
+    // verify if wakure exists
+
+    if (!(await Validator.verifyWakure(id))) {
+      res.status(400).json({
+        msg: "wakure does not exists",
+      });
+      return;
+    }
+
+    // get wakure by id
+
+    try {
+      const wakure = await WakureModel.getWakureById(id);
+      if (wakure !== null) {
+        res.status(200).json(wakure);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
 }
 
 export const wakureController = new WakureController();
