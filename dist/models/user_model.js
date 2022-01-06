@@ -63,6 +63,18 @@ class UserModel {
             return null;
         });
     }
+    // get user by id and statusDB = true
+    static getUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_schema_1.default.findById(id);
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
     // get all users with statusDB = true
     static getAllUsers() {
         return __awaiter(this, void 0, void 0, function* () {

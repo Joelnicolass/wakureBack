@@ -57,6 +57,19 @@ class WakureModel {
             return null;
         });
     }
+    // get all wakures where id is in array
+    static getWakuresByIds(ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log(ids);
+                return yield wakure_schema_1.default.find({ id: { $in: ids }, statusDB: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
     // delete wakure
     static deleteWakure(id) {
         return __awaiter(this, void 0, void 0, function* () {

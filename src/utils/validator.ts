@@ -11,19 +11,25 @@ class Validator {
   public static fieldsCreateUser(body: IUser): boolean {
     if (
       !body.name ||
+      !body.surname ||
+      !body.address ||
+      !body.email ||
       !body.password ||
       body.name === "" ||
-      body.password === ""
+      body.password === "" ||
+      body.surname === "" ||
+      body.address === "" ||
+      body.email === ""
     ) {
       return false;
     }
     return true;
   }
 
-  // validate length password and name user
+  // validate length password
 
   public static validateLength(body: IUser): boolean {
-    if (body.name.length < 4 || body.password.length < 4) {
+    if (body.password.length < 6) {
       return false;
     }
     return true;
@@ -50,6 +56,40 @@ class Validator {
       const user = await UserModel.getUserByName(name);
       if (user !== null) {
         return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  // verify if user exist by id
+  public static async verifyUserById(id: string): Promise<boolean> {
+    try {
+      const user = await UserModel.getUserById(id);
+      if (user !== null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  // verify if user exist and verify if is owner
+  public static async verifyUserAndOwner(id: string): Promise<IUser | boolean> {
+    try {
+      const user = await UserModel.getUserById(id);
+      if (user !== null) {
+        if (user.role === "owner") {
+          return user;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

@@ -19,16 +19,22 @@ class Validator {
     // validate fields to create user
     static fieldsCreateUser(body) {
         if (!body.name ||
+            !body.surname ||
+            !body.address ||
+            !body.email ||
             !body.password ||
             body.name === "" ||
-            body.password === "") {
+            body.password === "" ||
+            body.surname === "" ||
+            body.address === "" ||
+            body.email === "") {
             return false;
         }
         return true;
     }
-    // validate length password and name user
+    // validate length password
     static validateLength(body) {
-        if (body.name.length < 4 || body.password.length < 4) {
+        if (body.password.length < 6) {
             return false;
         }
         return true;
@@ -50,6 +56,47 @@ class Validator {
                 const user = yield user_model_1.default.getUserByName(name);
                 if (user !== null) {
                     return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return false;
+            }
+        });
+    }
+    // verify if user exist by id
+    static verifyUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield user_model_1.default.getUserById(id);
+                if (user !== null) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return false;
+            }
+        });
+    }
+    // verify if user exist and verify if is owner
+    static verifyUserAndOwner(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield user_model_1.default.getUserById(id);
+                if (user !== null) {
+                    if (user.role === "owner") {
+                        return user;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else {
                     return false;

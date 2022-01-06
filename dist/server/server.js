@@ -18,7 +18,6 @@ const auth_router_1 = __importDefault(require("../routes/auth_router"));
 const wakure_router_1 = __importDefault(require("../routes/wakure_router"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = require("../db/connection");
-const token_handler_1 = require("../utils/token_handler");
 // class server --------------------------------------
 class Server {
     constructor() {
@@ -53,7 +52,7 @@ class Server {
     // routes
     routes() {
         this._app.use(this._ApiPaths.auth, auth_router_1.default);
-        this._app.use(this._ApiPaths.users, token_handler_1.tokenValidator, user_router_1.default);
+        this._app.use(this._ApiPaths.users, user_router_1.default);
         this._app.use(this._ApiPaths.wakure, wakure_router_1.default);
     }
     // server on

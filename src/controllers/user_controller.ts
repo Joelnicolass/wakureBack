@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Roles } from "../helpers/roles_enum";
 import { IUser } from "../interfaces/user_interface";
 import UserModel from "../models/user_model";
+import WakureModel from "../models/wakure_model";
 import Validator from "../utils/validator";
 
 //get -----------------------------------------------------
@@ -77,6 +78,44 @@ class UserController {
         res.status(200).json({
           msg: "user deleted",
         });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+  // get my wakures
+
+  public async getMyWakures(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    //validate if user exists
+    let user: IUser | null;
+    try {
+      user = await UserModel.getUserById(id);
+      if (!user) {
+        res.status(400).json({
+          msg: "user not exists",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    console.log(user.owner_products_id);
+
+    // get wakures
+
+    try {
+      const wakures = await WakureModel.getWakuresByIds(user.owner_products_id);
+      if (wakures !== null) {
+        res.status(200).json(wakures);
         return;
       }
     } catch (error) {

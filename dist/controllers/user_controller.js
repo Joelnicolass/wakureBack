@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 const user_model_1 = __importDefault(require("../models/user_model"));
+const wakure_model_1 = __importDefault(require("../models/wakure_model"));
 const validator_1 = __importDefault(require("../utils/validator"));
 //get -----------------------------------------------------
 class UserController {
@@ -83,6 +84,42 @@ class UserController {
                     res.status(200).json({
                         msg: "user deleted",
                     });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
+    // get my wakures
+    getMyWakures(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            //validate if user exists
+            let user;
+            try {
+                user = yield user_model_1.default.getUserById(id);
+                if (!user) {
+                    res.status(400).json({
+                        msg: "user not exists",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            console.log(user.owner_products_id);
+            // get wakures
+            try {
+                const wakures = yield wakure_model_1.default.getWakuresByIds(user.owner_products_id);
+                if (wakures !== null) {
+                    res.status(200).json(wakures);
                     return;
                 }
             }

@@ -12,6 +12,9 @@ router.get("/", userController.getAllUsers);
 // get user by name -----------------------------------------------------
 // { name: string } -> { status 200, json user }
 router.get("/:name", userController.getUserByName);
+// get my wakures -----------------------------------------------------
+// { name: string } -> { status 200, json wakures[] }
+router.get("/:id/wakures", userController.getMyWakures);
 
 // delete user ----------------------------------------------------------
 // { name: string } -> { status 200, json user }

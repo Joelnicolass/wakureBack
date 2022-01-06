@@ -23,24 +23,10 @@ class AuthController {
 
     if (!Validator.validateLength(body)) {
       res.status(400).json({
-        msg: "name and password must be at least 4 characters",
+        msg: "password must be at least 6 characters",
       });
       return;
     }
-
-    // verify if user exists
-    /*     try {
-      if (await Validator.verifyUser(body.name)) {
-        res.status(400).json({
-          msg: "user already exists",
-        });
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ msg: "error" });
-      return;
-    } */
 
     // verify if email exists
 
@@ -70,7 +56,7 @@ class AuthController {
       email: body.email,
       password: body.password,
       role: Roles.OWNER,
-      owner_products_id: [""],
+      owner_products_id: ["w0001", "w0002", "w0003"],
       client_products_id: [""],
       statusDB: true,
     };

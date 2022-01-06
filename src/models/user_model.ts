@@ -49,6 +49,17 @@ class UserModel {
     return null;
   }
 
+  // get user by id and statusDB = true
+
+  public static async getUserById(id: string): Promise<IUser | null> {
+    try {
+      return await User.findById(id);
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
   // get all users with statusDB = true
 
   public static async getAllUsers(): Promise<IUser[] | null> {

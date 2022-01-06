@@ -10,6 +10,9 @@ router.get("/", user_controller_1.userController.getAllUsers);
 // get user by name -----------------------------------------------------
 // { name: string } -> { status 200, json user }
 router.get("/:name", user_controller_1.userController.getUserByName);
+// get my wakures -----------------------------------------------------
+// { name: string } -> { status 200, json wakures[] }
+router.get("/:id/wakures", user_controller_1.userController.getMyWakures);
 // delete user ----------------------------------------------------------
 // { name: string } -> { status 200, json user }
 router.delete("/:name", user_controller_1.userController.deleteUserByName);

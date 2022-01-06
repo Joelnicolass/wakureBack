@@ -38,6 +38,19 @@ class WakureModel {
     return null;
   }
 
+  // get all wakures where id is in array
+  public static async getWakuresByIds(
+    ids: string[]
+  ): Promise<IWakure[] | null> {
+    try {
+      console.log(ids);
+      return await Wakure.find({ id: { $in: ids }, statusDB: true });
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
   // delete wakure
   public static async deleteWakure(id: string): Promise<IWakure | null> {
     try {
