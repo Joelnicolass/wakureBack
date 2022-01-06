@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_model_1 = __importDefault(require("../models/user_model"));
+const wakure_model_1 = __importDefault(require("../models/wakure_model"));
 class Validator {
     // validate fields to create user
     static fieldsCreateUser(body) {
@@ -66,6 +67,32 @@ class Validator {
             try {
                 const user = yield user_model_1.default.getUserByEmail(email);
                 if (user !== null) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return false;
+            }
+        });
+    }
+    //WAKURE VALIDATORS --------------------------------
+    //validate fields create wakure
+    static fieldsCreateWakure(body) {
+        if (!body.name || !body.id || body.name === "" || body.id === "") {
+            return false;
+        }
+        return true;
+    }
+    //verify if wakure exists
+    static verifyWakure(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const wakure = yield wakure_model_1.default.getWakureById(id);
+                if (wakure !== null) {
                     return true;
                 }
                 else {

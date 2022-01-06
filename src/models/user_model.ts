@@ -11,8 +11,12 @@ class UserModel {
       const newUser = new User({
         role: user.role,
         name: user.name,
+        surname: user.surname,
+        address: user.address,
         email: user.email,
         password: user.password,
+        owner_products_id: user.owner_products_id,
+        client_products_id: user.client_products_id,
         statusDB: true,
       });
       newUser.password = await newUser.encryptPassword(user.password);
@@ -34,7 +38,7 @@ class UserModel {
     return null;
   }
 
-  // get user by email and statysDB = true
+  // get user by email and statusDB = true
 
   public static async getUserByEmail(email: string): Promise<IUser | null> {
     try {

@@ -37,19 +37,18 @@ class AuthController {
                 return;
             }
             // verify if user exists
-            try {
-                if (yield validator_1.default.verifyUser(body.name)) {
-                    res.status(400).json({
-                        msg: "user already exists",
-                    });
-                    return;
-                }
-            }
-            catch (error) {
-                console.log(error);
-                res.status(500).json({ msg: "error" });
+            /*     try {
+              if (await Validator.verifyUser(body.name)) {
+                res.status(400).json({
+                  msg: "user already exists",
+                });
                 return;
-            }
+              }
+            } catch (error) {
+              console.log(error);
+              res.status(500).json({ msg: "error" });
+              return;
+            } */
             // verify if email exists
             try {
                 if (yield validator_1.default.verifyEmail(body.email)) {
@@ -64,12 +63,18 @@ class AuthController {
                 res.status(500).json({ msg: "error" });
                 return;
             }
+            //TODO verify if owner or client
+            // TODO
             // create user
             const user = {
                 name: body.name,
+                surname: body.surname,
+                address: body.address,
                 email: body.email,
                 password: body.password,
-                role: roles_enum_1.Roles.USER,
+                role: roles_enum_1.Roles.OWNER,
+                owner_products_id: [""],
+                client_products_id: [""],
                 statusDB: true,
             };
             // save user

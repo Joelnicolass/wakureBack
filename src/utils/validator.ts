@@ -1,7 +1,9 @@
 // validate fields to create user
 
 import { IUser } from "../interfaces/user_interface";
+import { IWakure } from "../interfaces/wakure_interface";
 import UserModel from "../models/user_model";
+import WakureModel from "../models/wakure_model";
 
 class Validator {
   // validate fields to create user
@@ -63,6 +65,30 @@ class Validator {
     try {
       const user = await UserModel.getUserByEmail(email);
       if (user !== null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+  //WAKURE VALIDATORS --------------------------------
+
+  //validate fields create wakure
+  public static fieldsCreateWakure(body: IWakure): boolean {
+    if (!body.name || !body.id || body.name === "" || body.id === "") {
+      return false;
+    }
+    return true;
+  }
+
+  //verify if wakure exists
+  public static async verifyWakure(id: string): Promise<boolean> {
+    try {
+      const wakure = await WakureModel.getWakureById(id);
+      if (wakure !== null) {
         return true;
       } else {
         return false;

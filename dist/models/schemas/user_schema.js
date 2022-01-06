@@ -24,7 +24,14 @@ const userSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
+    },
+    surname: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+        required: true,
     },
     email: {
         type: String,
@@ -38,6 +45,14 @@ const userSchema = new mongoose_1.default.Schema({
     statusDB: {
         type: Boolean,
         required: true,
+    },
+    owner_products_id: {
+        type: [String],
+        required: false,
+    },
+    client_products_id: {
+        type: [String],
+        required: false,
     },
 });
 // encrypt password methods

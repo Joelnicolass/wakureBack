@@ -14,7 +14,7 @@ const mongoose = require("mongoose");
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose.connect("mongodb://192.168.1.104:27017/fantest", {});
+            yield mongoose.connect("mongodb://127.0.0.1:27017/Wakurent", {});
             console.log("DB connected");
         }
         catch (e) {

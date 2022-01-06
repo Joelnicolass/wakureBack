@@ -1,5 +1,4 @@
 "use strict";
-// model for user using mongoose
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,25 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_schema_1 = __importDefault(require("./schemas/user_schema"));
-class UserModel {
-    // create user
-    static createUser(user) {
+const wakure_schema_1 = __importDefault(require("./schemas/wakure_schema"));
+class WakureModel {
+    // add wakure
+    static addWakure(wakure) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const newUser = new user_schema_1.default({
-                    role: user.role,
-                    name: user.name,
-                    surname: user.surname,
-                    address: user.address,
-                    email: user.email,
-                    password: user.password,
-                    owner_products_id: user.owner_products_id,
-                    client_products_id: user.client_products_id,
+                const newWakure = new wakure_schema_1.default({
+                    id: wakure.id,
+                    name: wakure.name,
+                    geolocation: wakure.geolocation,
+                    booking: wakure.booking,
                     statusDB: true,
                 });
-                newUser.password = yield newUser.encryptPassword(user.password);
-                return yield newUser.save();
+                return yield newWakure.save();
             }
             catch (error) {
                 console.log(error);
@@ -39,11 +33,11 @@ class UserModel {
             return null;
         });
     }
-    // get user by name and statysDB = true
-    static getUserByName(name) {
+    // get wakure by id
+    static getWakureById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_schema_1.default.findOne({ name, statusDB: true });
+                return yield wakure_schema_1.default.findOne({ id, statusDB: true });
             }
             catch (error) {
                 console.log(error);
@@ -51,11 +45,11 @@ class UserModel {
             return null;
         });
     }
-    // get user by email and statusDB = true
-    static getUserByEmail(email) {
+    // get all wakures with statusDB = true
+    static getAllWakures() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_schema_1.default.findOne({ email, statusDB: true });
+                return yield wakure_schema_1.default.find({ statusDB: true });
             }
             catch (error) {
                 console.log(error);
@@ -63,11 +57,11 @@ class UserModel {
             return null;
         });
     }
-    // get all users with statusDB = true
-    static getAllUsers() {
+    // delete wakure
+    static deleteWakure(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_schema_1.default.find({ statusDB: true });
+                return yield wakure_schema_1.default.findOneAndUpdate({ id }, { statusDB: false });
             }
             catch (error) {
                 console.log(error);
@@ -75,23 +69,11 @@ class UserModel {
             return null;
         });
     }
-    // update password
-    static updateUser(user) {
+    //update geolocation wakure
+    static updateWakure(wakure) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_schema_1.default.findOneAndUpdate({ name: user.name }, { password: user.password }, { new: true });
-            }
-            catch (error) {
-                console.log(error);
-            }
-            return null;
-        });
-    }
-    // delete user by name
-    static deleteUserByName(name) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield user_schema_1.default.findOneAndDelete({ name });
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: wakure.id }, { geolocation: wakure.geolocation }, { new: true });
             }
             catch (error) {
                 console.log(error);
@@ -100,5 +82,5 @@ class UserModel {
         });
     }
 }
-exports.default = UserModel;
-//# sourceMappingURL=user_model.js.map
+exports.default = WakureModel;
+//# sourceMappingURL=wakure_model.js.map

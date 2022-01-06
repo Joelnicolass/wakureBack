@@ -29,7 +29,7 @@ class AuthController {
     }
 
     // verify if user exists
-    try {
+    /*     try {
       if (await Validator.verifyUser(body.name)) {
         res.status(400).json({
           msg: "user already exists",
@@ -40,7 +40,7 @@ class AuthController {
       console.log(error);
       res.status(500).json({ msg: "error" });
       return;
-    }
+    } */
 
     // verify if email exists
 
@@ -57,13 +57,21 @@ class AuthController {
       return;
     }
 
+    //TODO verify if owner or client
+
+    // TODO
+
     // create user
 
     const user = <IUser>{
       name: body.name,
+      surname: body.surname,
+      address: body.address,
       email: body.email,
       password: body.password,
-      role: Roles.USER,
+      role: Roles.OWNER,
+      owner_products_id: [""],
+      client_products_id: [""],
       statusDB: true,
     };
 

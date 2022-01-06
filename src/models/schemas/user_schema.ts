@@ -14,7 +14,14 @@ const userSchema = new mongoose.Schema<IUser>({
   name: {
     type: String,
     required: true,
-    unique: true,
+  },
+  surname: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
   },
   email: {
     type: String,
@@ -28,6 +35,14 @@ const userSchema = new mongoose.Schema<IUser>({
   statusDB: {
     type: Boolean,
     required: true,
+  },
+  owner_products_id: {
+    type: [String],
+    required: false,
+  },
+  client_products_id: {
+    type: [String],
+    required: false,
   },
 });
 
