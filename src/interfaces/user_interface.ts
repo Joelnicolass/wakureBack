@@ -8,6 +8,7 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   statusDB: boolean;
+  products_id: string[];
   encryptPassword(password: string): Promise<string>;
   matchPassword(password: string): Promise<boolean>;
 }
