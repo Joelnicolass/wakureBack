@@ -44,7 +44,7 @@ class WakureController {
                         lat: -27.37008,
                         lng: -55.99201,
                     },
-                    hasOwner: false,
+                    hasOwner: true,
                     statusDB: true,
                 };
                 const result = yield wakure_model_1.default.addWakure(wakure);
