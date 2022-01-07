@@ -9,6 +9,6 @@ export interface IWakure extends mongoose.Document {
     lat: number;
     lng: number;
   };
-  booking: boolean;
+  hasOwner: boolean;
   statusDB: boolean;
 }

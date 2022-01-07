@@ -44,7 +44,7 @@ class WakureController {
                         lat: -27.37008,
                         lng: -55.99201,
                     },
-                    booking: false,
+                    hasOwner: false,
                     statusDB: true,
                 };
                 const result = yield wakure_model_1.default.addWakure(wakure);
@@ -97,7 +97,7 @@ class WakureController {
                     lat: body.lat,
                     lng: body.lng,
                 },
-                booking: wakure.booking,
+                hasOwner: wakure.hasOwner,
                 statusDB: wakure.statusDB,
             };
             // update geolocation wakure

@@ -21,7 +21,7 @@ const wakureSchema = new mongoose.Schema<IWakure>({
       required: true,
     },
   },
-  booking: {
+  hasOwner: {
     type: Boolean,
     required: true,
   },

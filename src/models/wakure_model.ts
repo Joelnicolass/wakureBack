@@ -9,7 +9,7 @@ class WakureModel {
         id: wakure.id,
         name: wakure.name,
         geolocation: wakure.geolocation,
-        booking: wakure.booking,
+        hasOwner: wakure.hasOwner,
         statusDB: true,
       });
       return await newWakure.save();
