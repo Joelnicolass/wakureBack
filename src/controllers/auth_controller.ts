@@ -53,6 +53,7 @@ class AuthController {
       name: body.name,
       surname: body.surname,
       address: body.address,
+      phone: body.phone,
       email: body.email,
       password: body.password,
       role: Roles.OWNER,
@@ -91,15 +92,17 @@ class AuthController {
 
     if (!Validator.fieldsLoginUser(body)) {
       res.status(400).json({
-        msg: "name and password are required",
+        msg: "email and password are required",
       });
       return;
     }
 
+    console.log("paso la validacion de campos");
+
     // verify if user exists
 
     try {
-      if (!(await Validator.verifyUser(body.name))) {
+      if (!(await Validator.verifyEmail(body.email))) {
         res.status(400).json({
           msg: "user does not exist",
         });
@@ -111,10 +114,11 @@ class AuthController {
       return;
     }
 
+    console.log("paso la verificacion de email");
     // obtain user
 
     try {
-      const user = await UserModel.getUserByName(body.name);
+      const user = await UserModel.getUserByEmail(body.email);
       if (user !== null) {
         // jwt controller
 
@@ -153,12 +157,6 @@ class AuthController {
   }
 
   // --------------------------------------------------------------
-
-  public async profile(req: Request, res: Response): Promise<void> {
-    res.status(200).json({
-      msg: "profile",
-    });
-  }
 }
 
 export const authController = new AuthController();

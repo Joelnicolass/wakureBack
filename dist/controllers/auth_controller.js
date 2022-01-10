@@ -57,6 +57,7 @@ class AuthController {
                 name: body.name,
                 surname: body.surname,
                 address: body.address,
+                phone: body.phone,
                 email: body.email,
                 password: body.password,
                 role: roles_enum_1.Roles.OWNER,
@@ -87,13 +88,14 @@ class AuthController {
             // validate fields
             if (!validator_1.default.fieldsLoginUser(body)) {
                 res.status(400).json({
-                    msg: "name and password are required",
+                    msg: "email and password are required",
                 });
                 return;
             }
+            console.log("paso la validacion de campos");
             // verify if user exists
             try {
-                if (!(yield validator_1.default.verifyUser(body.name))) {
+                if (!(yield validator_1.default.verifyEmail(body.email))) {
                     res.status(400).json({
                         msg: "user does not exist",
                     });
@@ -105,9 +107,10 @@ class AuthController {
                 res.status(500).json({ msg: "error" });
                 return;
             }
+            console.log("paso la verificacion de email");
             // obtain user
             try {
-                const user = yield user_model_1.default.getUserByName(body.name);
+                const user = yield user_model_1.default.getUserByEmail(body.email);
                 if (user !== null) {
                     // jwt controller
                     const matchPassword = yield user.matchPassword(body.password);
@@ -136,14 +139,6 @@ class AuthController {
         return __awaiter(this, void 0, void 0, function* () {
             res.status(200).json({
                 msg: "signout",
-            });
-        });
-    }
-    // --------------------------------------------------------------
-    profile(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            res.status(200).json({
-                msg: "profile",
             });
         });
     }

@@ -7,6 +7,7 @@ export interface IUser extends mongoose.Document {
   name: string;
   surname: string;
   address: string;
+  phone: string;
   email: string;
   password: string;
   owner_products_id: Array<string>;

@@ -13,12 +13,14 @@ class Validator {
       !body.name ||
       !body.surname ||
       !body.address ||
+      !body.phone ||
       !body.email ||
       !body.password ||
       body.name === "" ||
       body.password === "" ||
       body.surname === "" ||
       body.address === "" ||
+      body.phone === "" ||
       body.email === ""
     ) {
       return false;
@@ -39,9 +41,9 @@ class Validator {
 
   public static fieldsLoginUser(body: IUser): boolean {
     if (
-      !body.name ||
+      !body.email ||
       !body.password ||
-      body.name === "" ||
+      body.email === "" ||
       body.password === ""
     ) {
       return false;

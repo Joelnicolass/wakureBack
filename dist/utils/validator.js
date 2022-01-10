@@ -21,12 +21,14 @@ class Validator {
         if (!body.name ||
             !body.surname ||
             !body.address ||
+            !body.phone ||
             !body.email ||
             !body.password ||
             body.name === "" ||
             body.password === "" ||
             body.surname === "" ||
             body.address === "" ||
+            body.phone === "" ||
             body.email === "") {
             return false;
         }
@@ -41,9 +43,9 @@ class Validator {
     }
     // validate fields to login user
     static fieldsLoginUser(body) {
-        if (!body.name ||
+        if (!body.email ||
             !body.password ||
-            body.name === "" ||
+            body.email === "" ||
             body.password === "") {
             return false;
         }
