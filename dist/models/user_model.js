@@ -24,6 +24,7 @@ class UserModel {
                     name: user.name,
                     surname: user.surname,
                     address: user.address,
+                    phone: user.phone,
                     email: user.email,
                     password: user.password,
                     owner_products_id: user.owner_products_id,

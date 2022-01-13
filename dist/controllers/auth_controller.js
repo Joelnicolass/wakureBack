@@ -92,7 +92,6 @@ class AuthController {
                 });
                 return;
             }
-            console.log("paso la validacion de campos");
             // verify if user exists
             try {
                 if (!(yield validator_1.default.verifyEmail(body.email))) {
@@ -107,7 +106,6 @@ class AuthController {
                 res.status(500).json({ msg: "error" });
                 return;
             }
-            console.log("paso la verificacion de email");
             // obtain user
             try {
                 const user = yield user_model_1.default.getUserByEmail(body.email);

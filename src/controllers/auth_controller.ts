@@ -97,8 +97,6 @@ class AuthController {
       return;
     }
 
-    console.log("paso la validacion de campos");
-
     // verify if user exists
 
     try {
@@ -106,6 +104,7 @@ class AuthController {
         res.status(400).json({
           msg: "user does not exist",
         });
+
         return;
       }
     } catch (error) {
@@ -114,9 +113,7 @@ class AuthController {
       return;
     }
 
-    console.log("paso la verificacion de email");
     // obtain user
-
     try {
       const user = await UserModel.getUserByEmail(body.email);
       if (user !== null) {
