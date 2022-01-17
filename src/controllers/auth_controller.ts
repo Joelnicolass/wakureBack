@@ -23,22 +23,8 @@ class AuthController {
 
     if (!Validator.validateLength(body)) {
       res.status(400).json({
-        msg: "name and password must be at least 4 characters",
+        msg: "password must be at least 6 characters",
       });
-      return;
-    }
-
-    // verify if user exists
-    try {
-      if (await Validator.verifyUser(body.name)) {
-        res.status(400).json({
-          msg: "user already exists",
-        });
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ msg: "error" });
       return;
     }
 
@@ -57,13 +43,22 @@ class AuthController {
       return;
     }
 
+    //TODO verify if owner or client
+
+    // TODO
+
     // create user
 
     const user = <IUser>{
       name: body.name,
+      surname: body.surname,
+      address: body.address,
+      phone: body.phone,
       email: body.email,
       password: body.password,
-      role: Roles.USER,
+      role: Roles.OWNER,
+      owner_products_id: ["w0001", "w0002", "w0003"],
+      client_products_id: [""],
       statusDB: true,
     };
 
@@ -93,22 +88,24 @@ class AuthController {
   public async signin(req: Request, res: Response): Promise<void> {
     const { body } = req;
 
+    
     // validate fields
-
+    
     if (!Validator.fieldsLoginUser(body)) {
       res.status(400).json({
-        msg: "name and password are required",
+        msg: "email and password are required",
       });
       return;
     }
-
+    
     // verify if user exists
-
+    
     try {
-      if (!(await Validator.verifyUser(body.name))) {
+      if (!(await Validator.verifyEmail(body.email))) {
         res.status(400).json({
           msg: "user does not exist",
         });
+        
         return;
       }
     } catch (error) {
@@ -116,13 +113,15 @@ class AuthController {
       res.status(500).json({ msg: "error" });
       return;
     }
-
+       
+    
     // obtain user
-
     try {
-      const user = await UserModel.getUserByName(body.name);
+      const user = await UserModel.getUserByEmail(body.email);
       if (user !== null) {
         // jwt controller
+        
+
 
         const matchPassword: boolean = await user.matchPassword(body.password);
 
@@ -130,6 +129,7 @@ class AuthController {
           res.status(400).json({
             msg: "password is incorrect",
           });
+          
 
           return;
         } else {
@@ -159,12 +159,6 @@ class AuthController {
   }
 
   // --------------------------------------------------------------
-
-  public async profile(req: Request, res: Response): Promise<void> {
-    res.status(200).json({
-      msg: "profile",
-    });
-  }
 }
 
 export const authController = new AuthController();

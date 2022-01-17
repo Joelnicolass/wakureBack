@@ -1,6 +1,7 @@
 import express from "express";
 import userRoutes from "../routes/user_router";
 import authRoutes from "../routes/auth_router";
+import wakureRoutes from "../routes/wakure_router";
 import cors from "cors";
 import { connect } from "../db/connection";
 import { tokenValidator } from "../utils/token_handler";
@@ -12,6 +13,7 @@ class Server {
   private _ApiPaths = {
     auth: "/api/auth",
     users: "/api/users",
+    wakure: "/api/wakure",
   };
 
   constructor() {
@@ -43,7 +45,8 @@ class Server {
   // routes
   public routes() {
     this._app.use(this._ApiPaths.auth, authRoutes);
-    this._app.use(this._ApiPaths.users, tokenValidator, userRoutes);
+    this._app.use(this._ApiPaths.users, userRoutes);
+    this._app.use(this._ApiPaths.wakure, wakureRoutes);
   }
 
   // server on
