@@ -92,6 +92,8 @@ class UserController {
   public async getMyWakures(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
+    console.log('llamda');
+
     //validate if user exists
     let user: IUser | null;
     try {

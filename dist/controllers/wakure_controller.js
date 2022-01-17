@@ -143,6 +143,23 @@ class WakureController {
             }
         });
     }
+    // get all wakures  (FOR ADMIN CONTROL)
+    getAllWakures(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const wakures = yield wakure_model_1.default.getAllWakures();
+                if (wakures !== null) {
+                    res.status(200).json(wakures);
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
 }
 exports.wakureController = new WakureController();
 //# sourceMappingURL=wakure_controller.js.map
