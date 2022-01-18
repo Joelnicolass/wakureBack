@@ -98,7 +98,7 @@ class UserController {
     getMyWakures(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            console.log('llamda');
+            console.log("llamda");
             //validate if user exists
             let user;
             try {
@@ -122,6 +122,72 @@ class UserController {
                 if (wakures !== null) {
                     res.status(200).json(wakures);
                     return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
+    // add wakure to owner_products_id
+    addWakureToOwnerProductsId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // id params = id user
+            // body.id = id wakure
+            // body.name = name wakure
+            const { id } = req.params;
+            const { body } = req;
+            //validates
+            // verify if user exist and verify if is owner
+            try {
+                const user = yield validator_1.default.verifyUserAndOwner(id);
+                if (!user) {
+                    res.status(400).json({
+                        msg: "user not exists or not owner",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            //validate if wakure exists and if it has owner
+            try {
+                const wakure = yield validator_1.default.verifyWakureAndOwner(body.id);
+                if (!wakure) {
+                    res.status(400).json({
+                        msg: "wakure not exists or it has owner",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // update name and hasOwner wakure
+            try {
+                const wakure = yield wakure_model_1.default.updateNameAndHasOwnerWakure(body.name, true, body.id);
+                if (wakure !== null) {
+                    // add wakure to owner_products_id
+                    const user = yield user_model_1.default.addWakureToOwnerProductsId(id, body.id);
+                    if (user !== null) {
+                        res.status(200).json({
+                            msg: "wakure added",
+                        });
+                        return;
+                    }
+                    else {
+                        res.status(500).json({
+                            msg: "error",
+                        });
+                        return;
+                    }
                 }
             }
             catch (error) {

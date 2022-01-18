@@ -97,6 +97,24 @@ class UserModel {
     }
     return null;
   }
+
+  // add wakure to owner_products_id
+
+  public static async addWakureToOwnerProductsId(
+    id: string,
+    wakureId: string
+  ): Promise<IUser | null> {
+    try {
+      return await User.findOneAndUpdate(
+        { _id: id },
+        { $push: { owner_products_id: wakureId } },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
 }
 
 export default UserModel;

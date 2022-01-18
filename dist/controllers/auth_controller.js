@@ -60,8 +60,8 @@ class AuthController {
                 phone: body.phone,
                 email: body.email,
                 password: body.password,
-                role: roles_enum_1.Roles.OWNER,
-                owner_products_id: ["w0001", "w0002", "w0003"],
+                role: roles_enum_1.Roles.CLIENT,
+                owner_products_id: [""],
                 client_products_id: [""],
                 statusDB: true,
             };

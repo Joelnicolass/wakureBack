@@ -18,5 +18,4 @@ router.get("/geolocation/:id", wakureController.getGeolocationWakure);
 //TODO: HACER LAS VALIDACIONES (token validator para verificar si sos el admin mas alto de todos)
 router.get("/", wakureController.getAllWakures);
 
-
 export default router;

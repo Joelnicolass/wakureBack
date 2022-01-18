@@ -56,8 +56,8 @@ class AuthController {
       phone: body.phone,
       email: body.email,
       password: body.password,
-      role: Roles.OWNER,
-      owner_products_id: ["w0001", "w0002", "w0003"],
+      role: Roles.CLIENT,
+      owner_products_id: [""],
       client_products_id: [""],
       statusDB: true,
     };
@@ -88,24 +88,23 @@ class AuthController {
   public async signin(req: Request, res: Response): Promise<void> {
     const { body } = req;
 
-    
     // validate fields
-    
+
     if (!Validator.fieldsLoginUser(body)) {
       res.status(400).json({
         msg: "email and password are required",
       });
       return;
     }
-    
+
     // verify if user exists
-    
+
     try {
       if (!(await Validator.verifyEmail(body.email))) {
         res.status(400).json({
           msg: "user does not exist",
         });
-        
+
         return;
       }
     } catch (error) {
@@ -113,15 +112,12 @@ class AuthController {
       res.status(500).json({ msg: "error" });
       return;
     }
-       
-    
+
     // obtain user
     try {
       const user = await UserModel.getUserByEmail(body.email);
       if (user !== null) {
         // jwt controller
-        
-
 
         const matchPassword: boolean = await user.matchPassword(body.password);
 
@@ -129,7 +125,6 @@ class AuthController {
           res.status(400).json({
             msg: "password is incorrect",
           });
-          
 
           return;
         } else {

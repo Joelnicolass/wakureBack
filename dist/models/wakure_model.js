@@ -94,6 +94,42 @@ class WakureModel {
             return null;
         });
     }
+    // update name wakure
+    static updateNameWakure(id, name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { name: name }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // update hasOwner wakure
+    static updateHasOwnerWakure(owner, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { hasOwner: owner }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // update name and hasOwner wakure
+    static updateNameAndHasOwnerWakure(name, owner, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { name: name, hasOwner: owner }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
 }
 exports.default = WakureModel;
 //# sourceMappingURL=wakure_model.js.map
