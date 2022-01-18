@@ -51,8 +51,8 @@ class WakureModel {
     return null;
   }
 
-  // delete wakure
-  public static async deleteWakure(id: string): Promise<IWakure | null> {
+  // delete wakure by id
+  public static async deleteWakureById(id: string): Promise<IWakure | null> {
     try {
       return await Wakure.findOneAndUpdate({ id }, { statusDB: false });
     } catch (error) {
