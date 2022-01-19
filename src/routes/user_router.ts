@@ -26,5 +26,25 @@ router.delete("/:name", userController.deleteUserByName);
 // { name: string, password: string } -> { status 200, json user }
 router.put("/:name", userController.updatePassword);
 
+//OWNER REQUESTS
+
+// add wakure ----------------------------------------------------------
+// { name: string, code: string } -> { status 200, json user }
+router.post("/:id/addwakure", userController.addWakureToOwnerProductsId);
+
+//delete Wakure From Owner Products Id ----------------------------------------------------------
+// { id: string, code: string } -> { status 200, json user }
+router.delete(
+  "/:id/wakure/:code",
+  userController.deleteWakureFromOwnerProductsId
+);
+
+//update Wakure Name by Id
+// { id: string, name: string } -> { status 200, json wakure }
+router.put(
+  "/:id/wakure/:code",
+  userController.updateWakureNameById
+);
+
 // export
 export default router;

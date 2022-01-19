@@ -160,6 +160,41 @@ class WakureController {
             }
         });
     }
+    // delete -----------------------------------------------------
+    // delete wakure by id
+    deleteWakureById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            //validate if wakure exists
+            try {
+                if (!(yield validator_1.default.verifyWakure(id))) {
+                    res.status(400).json({
+                        msg: "wakure does not exists",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // delete wakure
+            try {
+                if (yield wakure_model_1.default.deleteWakureById(id)) {
+                    res.status(200).json({
+                        msg: "wakure deleted",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
 }
 exports.wakureController = new WakureController();
 //# sourceMappingURL=wakure_controller.js.map

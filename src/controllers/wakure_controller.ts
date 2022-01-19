@@ -161,8 +161,46 @@ class WakureController {
   public async getAllWakures(req: Request, res: Response): Promise<void> {
     try {
       const wakures = await WakureModel.getAllWakures();
-      if (wakures!== null) {
+      if (wakures !== null) {
         res.status(200).json(wakures);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+  // delete -----------------------------------------------------
+
+  // delete wakure by id
+
+  public async deleteWakureById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    //validate if wakure exists
+
+    try {
+      if (!(await Validator.verifyWakure(id))) {
+        res.status(400).json({
+          msg: "wakure does not exists",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // delete wakure
+
+    try {
+      if (await WakureModel.deleteWakureById(id)) {
+        res.status(200).json({
+          msg: "wakure deleted",
+        });
         return;
       }
     } catch (error) {

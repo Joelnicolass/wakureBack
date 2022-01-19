@@ -52,8 +52,8 @@ class Server {
     // routes
     routes() {
         this._app.use(this._ApiPaths.auth, auth_router_1.default);
-        this._app.use(this._ApiPaths.users, user_router_1.default);
-        this._app.use(this._ApiPaths.wakure, wakure_router_1.default);
+        this._app.use(this._ApiPaths.users, /* tokenValidator, */ user_router_1.default);
+        this._app.use(this._ApiPaths.wakure, /* tokenValidator, */ wakure_router_1.default);
     }
     // server on
     listen() {

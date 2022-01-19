@@ -58,6 +58,14 @@ const userSchema = new mongoose_1.default.Schema({
         type: [String],
         required: false,
     },
+    friend_renting_id: {
+        type: [String],
+        required: false,
+    },
+    friends_id: {
+        type: [String],
+        required: false,
+    },
 });
 // encrypt password methods
 userSchema.methods.encryptPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {

@@ -18,6 +18,8 @@ class UserModel {
         password: user.password,
         owner_products_id: user.owner_products_id,
         client_products_id: user.client_products_id,
+        friend_renting_id: user.friend_renting_id,
+        friends_id: user.friends_id,
         statusDB: true,
       });
       newUser.password = await newUser.encryptPassword(user.password);
@@ -92,6 +94,60 @@ class UserModel {
   public static async deleteUserByName(name: string): Promise<IUser | null> {
     try {
       return await User.findOneAndDelete({ name });
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // add wakure to owner_products_id
+
+  public static async addWakureToOwnerProductsId(
+    id: string,
+    wakureId: string
+  ): Promise<IUser | null> {
+    try {
+      return await User.findOneAndUpdate(
+        { _id: id },
+        { $push: { owner_products_id: wakureId } },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // update role
+
+  public static async updateRole(
+    id: string,
+    roleType: string
+  ): Promise<IUser | null> {
+    try {
+      return await User.findOneAndUpdate(
+        { _id: id },
+        { role: roleType },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // delete wakure from owner_products_id
+
+  public static async deleteWakureFromOwnerProductsId(
+    id: string,
+    wakureId: string
+  ): Promise<IUser | null> {
+    try {
+      return await User.findOneAndUpdate(
+        { _id: id },
+        { $pull: { owner_products_id: wakureId } },
+        { new: true }
+      );
     } catch (error) {
       console.log(error);
     }

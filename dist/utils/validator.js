@@ -56,6 +56,7 @@ class Validator {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield user_model_1.default.getUserByName(name);
+                console.log(name);
                 if (user !== null) {
                     return true;
                 }
@@ -93,7 +94,7 @@ class Validator {
             try {
                 const user = yield user_model_1.default.getUserById(id);
                 if (user !== null) {
-                    if (user.role === "owner") {
+                    if (user.role === "OWNER") {
                         return user;
                     }
                     else {
@@ -143,6 +144,52 @@ class Validator {
                 const wakure = yield wakure_model_1.default.getWakureById(id);
                 if (wakure !== null) {
                     return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return false;
+            }
+        });
+    }
+    //validate if wakure exists and if it has owner
+    static verifyWakureAndOwner(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const wakure = yield wakure_model_1.default.getWakureById(id);
+                if (wakure !== null) {
+                    if (wakure.hasOwner) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+                else {
+                    return false;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                return false;
+            }
+        });
+    }
+    //validate if wakure exists and if it has owner
+    static verifyWakureHasNotOwner(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const wakure = yield wakure_model_1.default.getWakureById(id);
+                if (wakure !== null) {
+                    if (wakure.hasOwner) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 else {
                     return false;

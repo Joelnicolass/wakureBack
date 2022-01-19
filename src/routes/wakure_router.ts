@@ -6,7 +6,12 @@ const router = Router();
 // routes
 
 // create wakure
+// FOR AMDMIN CONTROL
+
 router.post("/new", wakureController.addWakure);
+
+//-------------------------------------------------------
+
 // update geolocation wakure by id
 // endpoint que va a utilizar el wakure para actualizar su ubicacion -------------------------------------------
 router.put("/geolocation/:id", wakureController.updateGeolocationWakure);
@@ -17,6 +22,11 @@ router.get("/geolocation/:id", wakureController.getGeolocationWakure);
 // -> { status 200, json wakures[] }
 //TODO: HACER LAS VALIDACIONES (token validator para verificar si sos el admin mas alto de todos)
 router.get("/", wakureController.getAllWakures);
+
+//  delete Wakure by id for ADMIN CONTROL
+// { id: string } -> { status 200, statusdb = false }
+router.delete("/:id", wakureController.deleteWakureById);
+
 
 
 export default router;
