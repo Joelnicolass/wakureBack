@@ -42,7 +42,7 @@ router.delete(
 //update Wakure Name by Id
 // { id: string, name: string } -> { status 200, json wakure }
 router.put(
-  "/wakure/:id",
+  "/:id/wakure/:code",
   userController.updateWakureNameById
 );
 

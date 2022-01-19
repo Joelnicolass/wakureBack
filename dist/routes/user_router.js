@@ -30,7 +30,7 @@ router.post("/:id/addwakure", user_controller_1.userController.addWakureToOwnerP
 router.delete("/:id/wakure/:code", user_controller_1.userController.deleteWakureFromOwnerProductsId);
 //update Wakure Name by Id
 // { id: string, name: string } -> { status 200, json wakure }
-router.put("/wakure/:id", user_controller_1.userController.updateWakureNameById);
+router.put("/:id/wakure/:code", user_controller_1.userController.updateWakureNameById);
 // export
 exports.default = router;
 //# sourceMappingURL=user_router.js.map

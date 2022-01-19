@@ -270,45 +270,19 @@ class UserController {
     // upload Wakure Name by Id
     updateWakureNameById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
+            const { id, code } = req.params;
             const { body } = req;
             // verify if wakure exists
-            if (!(yield validator_1.default.verifyWakure(id))) {
+            if (!(yield validator_1.default.verifyWakure(code))) {
                 res.status(400).json({
                     msg: "wakure does not exists",
                 });
                 return;
             }
-            // get wakure by id
-            let wakure;
+            //TODO verify user exist and has owner
+            // update name wakure
             try {
-                wakure = yield wakure_model_1.default.getWakureById(id);
-                if (wakure == null) {
-                    res.status(400).json({
-                        msg: "wakure does not exists",
-                    });
-                    return;
-                }
-            }
-            catch (error) {
-                console.log(error);
-                res.status(500).json({ msg: "error" });
-                return;
-            }
-            // create object wakure
-            wakure = {
-                id: id,
-                name: body.name,
-                geolocation: {
-                    lat: wakure.geolocation.lat,
-                    lng: wakure.geolocation.lng,
-                },
-                hasOwner: wakure.hasOwner,
-                statusDB: wakure.statusDB,
-            };
-            // update wakure name
-            try {
-                const result = yield wakure_model_1.default.updateNameWakure(id, body.name);
+                const result = yield wakure_model_1.default.updateNameWakure(code, body.name);
                 if (result !== null) {
                     res.status(200).json(result);
                     return;

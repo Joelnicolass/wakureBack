@@ -292,53 +292,26 @@ class UserController {
     req: Request,
     res: Response
   ): Promise<void> {
-    const { id } = req.params;
+    const { id, code } = req.params;
     const { body } = req;
 
     // verify if wakure exists
 
-    if (!(await Validator.verifyWakure(id))) {
+    if (!(await Validator.verifyWakure(code))) {
       res.status(400).json({
         msg: "wakure does not exists",
       });
       return;
     }
 
-    // get wakure by id
+    //TODO verify user exist and has owner
 
-    let wakure: IWakure | null;
 
-    try {
-      wakure = await WakureModel.getWakureById(id);
-      if (wakure == null) {
-        res.status(400).json({
-          msg: "wakure does not exists",
-        });
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ msg: "error" });
-      return;
-    }
 
-    // create object wakure
-
-    wakure = <IWakure>{
-      id: id,
-      name: body.name,
-      geolocation: {
-        lat: wakure.geolocation.lat,
-        lng: wakure.geolocation.lng,
-      },
-      hasOwner: wakure.hasOwner,
-      statusDB: wakure.statusDB,
-    };
-
-    // update wakure name
+    // update name wakure
 
     try {
-      const result = await WakureModel.updateNameWakure(id, body.name);
+      const result = await WakureModel.updateNameWakure(code, body.name);
 
       if (result !== null) {
         res.status(200).json(result);
