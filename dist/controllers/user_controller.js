@@ -306,7 +306,7 @@ class UserController {
                 hasOwner: wakure.hasOwner,
                 statusDB: wakure.statusDB,
             };
-            // update geolocation wakure
+            // update wakure name
             try {
                 const result = yield wakure_model_1.default.updateNameWakure(id, body.name);
                 if (result !== null) {

@@ -335,7 +335,7 @@ class UserController {
       statusDB: wakure.statusDB,
     };
 
-    // update geolocation wakure
+    // update wakure name
 
     try {
       const result = await WakureModel.updateNameWakure(id, body.name);
