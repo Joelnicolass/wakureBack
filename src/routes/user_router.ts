@@ -39,5 +39,12 @@ router.delete(
   userController.deleteWakureFromOwnerProductsId
 );
 
+//update Wakure Name by Id
+// { id: string, name: string } -> { status 200, json wakure }
+router.put(
+  "/wakure/:id",
+  userController.updateWakureNameById
+);
+
 // export
 export default router;

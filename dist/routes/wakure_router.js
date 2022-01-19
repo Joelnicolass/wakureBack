@@ -18,7 +18,7 @@ router.get("/geolocation/:id", wakure_controller_1.wakureController.getGeolocati
 // -> { status 200, json wakures[] }
 //TODO: HACER LAS VALIDACIONES (token validator para verificar si sos el admin mas alto de todos)
 router.get("/", wakure_controller_1.wakureController.getAllWakures);
-//  delete Wakure by id
+//  delete Wakure by id for ADMIN CONTROL
 // { id: string } -> { status 200, statusdb = false }
 router.delete("/:id", wakure_controller_1.wakureController.deleteWakureById);
 exports.default = router;

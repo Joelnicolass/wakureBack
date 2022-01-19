@@ -283,6 +283,83 @@ class UserController {
       return;
     }
   }
+
+
+  // upload Wakure Name by Id
+
+
+  public async updateWakureNameById(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    const { id } = req.params;
+    const { body } = req;
+
+    // verify if wakure exists
+
+    if (!(await Validator.verifyWakure(id))) {
+      res.status(400).json({
+        msg: "wakure does not exists",
+      });
+      return;
+    }
+
+    // get wakure by id
+
+    let wakure: IWakure | null;
+
+    try {
+      wakure = await WakureModel.getWakureById(id);
+      if (wakure == null) {
+        res.status(400).json({
+          msg: "wakure does not exists",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // create object wakure
+
+    wakure = <IWakure>{
+      id: id,
+      name: body.name,
+      geolocation: {
+        lat: wakure.geolocation.lat,
+        lng: wakure.geolocation.lng,
+      },
+      hasOwner: wakure.hasOwner,
+      statusDB: wakure.statusDB,
+    };
+
+    // update geolocation wakure
+
+    try {
+      const result = await WakureModel.updateNameWakure(id, body.name);
+
+      if (result !== null) {
+        res.status(200).json(result);
+        return;
+      }
+      console.log(result + " updated");
+      res.status(500).json({ msg: "Algo pasó" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+
+
 }
+
+
+
+
+
 
 export const userController = new UserController();
