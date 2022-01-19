@@ -45,8 +45,8 @@ class Server {
   // routes
   public routes() {
     this._app.use(this._ApiPaths.auth, authRoutes);
-    this._app.use(this._ApiPaths.users, tokenValidator, userRoutes);
-    this._app.use(this._ApiPaths.wakure, tokenValidator, wakureRoutes);
+    this._app.use(this._ApiPaths.users, /* tokenValidator, */ userRoutes);
+    this._app.use(this._ApiPaths.wakure, /* tokenValidator, */ wakureRoutes);
   }
 
   // server on

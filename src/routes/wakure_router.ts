@@ -6,7 +6,12 @@ const router = Router();
 // routes
 
 // create wakure
+// FOR AMDMIN CONTROL
+
 router.post("/new", wakureController.addWakure);
+
+//-------------------------------------------------------
+
 // update geolocation wakure by id
 // endpoint que va a utilizar el wakure para actualizar su ubicacion -------------------------------------------
 router.put("/geolocation/:id", wakureController.updateGeolocationWakure);

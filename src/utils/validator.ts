@@ -56,6 +56,7 @@ class Validator {
   public static async verifyUser(name: string): Promise<boolean> {
     try {
       const user = await UserModel.getUserByName(name);
+      console.log(name);
       if (user !== null) {
         return true;
       } else {
@@ -151,6 +152,27 @@ class Validator {
           return false;
         } else {
           return true;
+        }
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  //validate if wakure exists and if it has owner
+  public static async verifyWakureHasNotOwner(
+    id: string
+  ): Promise<IWakure | boolean> {
+    try {
+      const wakure = await WakureModel.getWakureById(id);
+      if (wakure !== null) {
+        if (wakure.hasOwner) {
+          return true;
+        } else {
+          return false;
         }
       } else {
         return false;

@@ -29,6 +29,8 @@ class UserModel {
                     password: user.password,
                     owner_products_id: user.owner_products_id,
                     client_products_id: user.client_products_id,
+                    friend_renting_id: user.friend_renting_id,
+                    friends_id: user.friends_id,
                     statusDB: true,
                 });
                 newUser.password = yield newUser.encryptPassword(user.password);
@@ -117,6 +119,30 @@ class UserModel {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield user_schema_1.default.findOneAndUpdate({ _id: id }, { $push: { owner_products_id: wakureId } }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // update role
+    static updateRole(id, roleType) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_schema_1.default.findOneAndUpdate({ _id: id }, { role: roleType }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // delete wakure from owner_products_id
+    static deleteWakureFromOwnerProductsId(id, wakureId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_schema_1.default.findOneAndUpdate({ _id: id }, { $pull: { owner_products_id: wakureId } }, { new: true });
             }
             catch (error) {
                 console.log(error);

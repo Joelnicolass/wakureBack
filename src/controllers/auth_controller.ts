@@ -59,6 +59,8 @@ class AuthController {
       role: Roles.CLIENT,
       owner_products_id: [""],
       client_products_id: [""],
+      friend_renting_id: [""],
+      friends_id: [""],
       statusDB: true,
     };
 

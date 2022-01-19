@@ -48,6 +48,14 @@ const userSchema = new mongoose.Schema<IUser>({
     type: [String],
     required: false,
   },
+  friend_renting_id: {
+    type: [String],
+    required: false,
+  },
+  friends_id: {
+    type: [String],
+    required: false,
+  },
 });
 
 // encrypt password methods

@@ -142,12 +142,13 @@ class UserController {
 
     //validates
 
-    // verify if user exist and verify if is owner
+    // verify if user exist
+    let user: IUser | null;
     try {
-      const user = await Validator.verifyUserAndOwner(id);
+      user = await UserModel.getUserById(id);
       if (!user) {
         res.status(400).json({
-          msg: "user not exists or not owner",
+          msg: "user not exists",
         });
         return;
       }
@@ -185,6 +186,11 @@ class UserController {
         // add wakure to owner_products_id
         const user = await UserModel.addWakureToOwnerProductsId(id, body.id);
         if (user !== null) {
+          if (user.owner_products_id.length >= 2) {
+            //update role to owner
+            const user = await UserModel.updateRole(id, Roles.OWNER);
+          }
+
           res.status(200).json({
             msg: "wakure added",
           });
@@ -195,6 +201,81 @@ class UserController {
           });
           return;
         }
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+  // delete wakure from owner_products_id
+
+  public async deleteWakureFromOwnerProductsId(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    // id params = id user
+    const { id, code } = req.params;
+
+    //validates
+
+    // verify if user exist
+    try {
+      if (!(await Validator.verifyUserById(id))) {
+        res.status(400).json({
+          msg: "user not exists",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    //validate if wakure exists and if it has owner
+
+    try {
+      const wakure = await Validator.verifyWakureHasNotOwner(code);
+      if (!wakure) {
+        res.status(400).json({
+          msg: "wakure does not exist or it has owner",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // delete wakure from owner_products_id
+
+    try {
+      const user = await UserModel.deleteWakureFromOwnerProductsId(id, code);
+      if (user !== null) {
+        // update role to user
+        if (user.owner_products_id.length === 1) {
+          const user = await UserModel.updateRole(id, Roles.CLIENT);
+        }
+
+        // update name and hasOwner wakure
+        const wakure = await WakureModel.updateNameAndHasOwnerWakure(
+          "WAKURE FANIOT",
+          false,
+          code
+        );
+
+        res.status(200).json({
+          msg: "wakure deleted",
+        });
+        return;
+      } else {
+        res.status(500).json({
+          msg: "error",
+        });
+        return;
       }
     } catch (error) {
       console.log(error);

@@ -5,7 +5,9 @@ const wakure_controller_1 = require("../controllers/wakure_controller");
 const router = (0, express_1.Router)();
 // routes
 // create wakure
+// FOR AMDMIN CONTROL
 router.post("/new", wakure_controller_1.wakureController.addWakure);
+//-------------------------------------------------------
 // update geolocation wakure by id
 // endpoint que va a utilizar el wakure para actualizar su ubicacion -------------------------------------------
 router.put("/geolocation/:id", wakure_controller_1.wakureController.updateGeolocationWakure);

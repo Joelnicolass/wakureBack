@@ -32,5 +32,12 @@ router.put("/:name", userController.updatePassword);
 // { name: string, code: string } -> { status 200, json user }
 router.post("/:id/addwakure", userController.addWakureToOwnerProductsId);
 
+//delete Wakure From Owner Products Id ----------------------------------------------------------
+// { id: string, code: string } -> { status 200, json user }
+router.delete(
+  "/:id/wakure/:code",
+  userController.deleteWakureFromOwnerProductsId
+);
+
 // export
 export default router;
