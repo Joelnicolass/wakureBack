@@ -70,8 +70,8 @@ class WakureModel {
             return null;
         });
     }
-    // delete wakure
-    static deleteWakure(id) {
+    // delete wakure by id
+    static deleteWakureById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield wakure_schema_1.default.findOneAndUpdate({ id }, { statusDB: false });

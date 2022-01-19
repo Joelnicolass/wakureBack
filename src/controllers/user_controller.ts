@@ -93,7 +93,7 @@ class UserController {
   public async getMyWakures(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    console.log("llamda");
+    console.log("getMyWakures from controller db");
 
     //validate if user exists
     let user: IUser | null;
@@ -163,7 +163,7 @@ class UserController {
       const wakure = await Validator.verifyWakureAndOwner(body.id);
       if (!wakure) {
         res.status(400).json({
-          msg: "wakure not exists or it has owner",
+          msg: "wakure does not exist or it has not owner",
         });
         return;
       }

@@ -98,7 +98,7 @@ class UserController {
     getMyWakures(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            console.log("llamda");
+            console.log("getMyWakures from controller db");
             //validate if user exists
             let user;
             try {
@@ -160,7 +160,7 @@ class UserController {
                 const wakure = yield validator_1.default.verifyWakureAndOwner(body.id);
                 if (!wakure) {
                     res.status(400).json({
-                        msg: "wakure not exists or it has owner",
+                        msg: "wakure does not exist or it has not owner",
                     });
                     return;
                 }
