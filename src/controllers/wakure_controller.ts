@@ -161,7 +161,7 @@ class WakureController {
   public async getAllWakures(req: Request, res: Response): Promise<void> {
     try {
       const wakures = await WakureModel.getAllWakures();
-      if (wakures!== null) {
+      if (wakures !== null) {
         res.status(200).json(wakures);
         return;
       }
@@ -171,7 +171,6 @@ class WakureController {
       return;
     }
   }
-
 
   // delete -----------------------------------------------------
 
@@ -183,7 +182,7 @@ class WakureController {
     //validate if wakure exists
 
     try {
-      if (!(await Validator.verifyWakure(id))) {        
+      if (!(await Validator.verifyWakure(id))) {
         res.status(400).json({
           msg: "wakure does not exists",
         });
@@ -210,10 +209,6 @@ class WakureController {
       return;
     }
   }
-
-
-
-
 }
 
 export const wakureController = new WakureController();
