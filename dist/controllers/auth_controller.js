@@ -60,8 +60,8 @@ class AuthController {
                 phone: body.phone,
                 email: body.email,
                 password: body.password,
-                role: roles_enum_1.Roles.OWNER,
-                owner_products_id: ["w0001", "w0002", "w0003"],
+                role: roles_enum_1.Roles.CLIENT,
+                owner_products_id: [""],
                 client_products_id: [""],
                 statusDB: true,
             };
@@ -135,9 +135,9 @@ class AuthController {
     // --------------------------------------------------------------
     signout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.status(200).json({
-                msg: "signout",
-            });
+            // logout
+            res.status(200).json({ msg: "logout" });
+            return;
         });
     }
 }

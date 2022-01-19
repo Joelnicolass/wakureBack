@@ -21,6 +21,10 @@ router.delete("/:name", user_controller_1.userController.deleteUserByName);
 // update pass ----------------------------------------------------------
 // { name: string, password: string } -> { status 200, json user }
 router.put("/:name", user_controller_1.userController.updatePassword);
+//OWNER REQUESTS
+// add wakure ----------------------------------------------------------
+// { name: string, code: string } -> { status 200, json user }
+router.post("/:id/addwakure", user_controller_1.userController.addWakureToOwnerProductsId);
 // export
 exports.default = router;
 //# sourceMappingURL=user_router.js.map

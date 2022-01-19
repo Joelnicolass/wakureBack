@@ -112,6 +112,18 @@ class UserModel {
             return null;
         });
     }
+    // add wakure to owner_products_id
+    static addWakureToOwnerProductsId(id, wakureId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_schema_1.default.findOneAndUpdate({ _id: id }, { $push: { owner_products_id: wakureId } }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
 }
 exports.default = UserModel;
 //# sourceMappingURL=user_model.js.map

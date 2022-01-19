@@ -51,8 +51,8 @@ class WakureModel {
     return null;
   }
 
-  // delete wakure
-  public static async deleteWakure(id: string): Promise<IWakure | null> {
+  // delete wakure by id
+  public static async deleteWakureById(id: string): Promise<IWakure | null> {
     try {
       return await Wakure.findOneAndUpdate({ id }, { statusDB: false });
     } catch (error) {
@@ -70,6 +70,58 @@ class WakureModel {
       return await Wakure.findOneAndUpdate(
         { id: wakure.id },
         { geolocation: wakure.geolocation },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // update name wakure
+  public static async updateNameWakure(
+    id: string,
+    name: string
+  ): Promise<IWakure | null> {
+    try {
+      return await Wakure.findOneAndUpdate(
+        { id: id },
+        { name: name },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // update hasOwner wakure
+  public static async updateHasOwnerWakure(
+    owner: boolean,
+    id: string
+  ): Promise<IWakure | null> {
+    try {
+      return await Wakure.findOneAndUpdate(
+        { id: id },
+        { hasOwner: owner },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // update name and hasOwner wakure
+  public static async updateNameAndHasOwnerWakure(
+    name: string,
+    owner: boolean,
+    id: string
+  ): Promise<IWakure | null> {
+    try {
+      return await Wakure.findOneAndUpdate(
+        { id: id },
+        { name: name, hasOwner: owner },
         { new: true }
       );
     } catch (error) {

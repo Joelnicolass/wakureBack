@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Roles } from "../helpers/roles_enum";
 import { IUser } from "../interfaces/user_interface";
+import { IWakure } from "../interfaces/wakure_interface";
 import UserModel from "../models/user_model";
 import WakureModel from "../models/wakure_model";
 import Validator from "../utils/validator";
@@ -92,7 +93,7 @@ class UserController {
   public async getMyWakures(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
-    console.log('llamda');
+    console.log("getMyWakures from controller db");
 
     //validate if user exists
     let user: IUser | null;
@@ -119,6 +120,81 @@ class UserController {
       if (wakures !== null) {
         res.status(200).json(wakures);
         return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+  // add wakure to owner_products_id
+
+  public async addWakureToOwnerProductsId(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    // id params = id user
+    // body.id = id wakure
+    // body.name = name wakure
+    const { id } = req.params;
+    const { body } = req;
+
+    //validates
+
+    // verify if user exist and verify if is owner
+    try {
+      const user = await Validator.verifyUserAndOwner(id);
+      if (!user) {
+        res.status(400).json({
+          msg: "user not exists or not owner",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    //validate if wakure exists and if it has owner
+
+    try {
+      const wakure = await Validator.verifyWakureAndOwner(body.id);
+      if (!wakure) {
+        res.status(400).json({
+          msg: "wakure does not exist or it has not owner",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // update name and hasOwner wakure
+
+    try {
+      const wakure = await WakureModel.updateNameAndHasOwnerWakure(
+        body.name,
+        true,
+        body.id
+      );
+      if (wakure !== null) {
+        // add wakure to owner_products_id
+        const user = await UserModel.addWakureToOwnerProductsId(id, body.id);
+        if (user !== null) {
+          res.status(200).json({
+            msg: "wakure added",
+          });
+          return;
+        } else {
+          res.status(500).json({
+            msg: "error",
+          });
+          return;
+        }
       }
     } catch (error) {
       console.log(error);
