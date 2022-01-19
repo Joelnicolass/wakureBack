@@ -148,9 +148,10 @@ class AuthController {
   // --------------------------------------------------------------
 
   public async signout(req: Request, res: Response): Promise<void> {
-    res.status(200).json({
-      msg: "signout",
-    });
+    // logout
+    res.status(200).json({ msg: "logout" });
+
+    return;
   }
 
   // --------------------------------------------------------------

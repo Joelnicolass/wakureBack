@@ -135,9 +135,9 @@ class AuthController {
     // --------------------------------------------------------------
     signout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.status(200).json({
-                msg: "signout",
-            });
+            // logout
+            res.status(200).json({ msg: "logout" });
+            return;
         });
     }
 }
