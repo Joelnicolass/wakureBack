@@ -41,6 +41,19 @@ class UserModel {
     return null;
   }
 
+  // get users by ids
+
+  public static async getUsersByIds(
+    ids: String[] | undefined
+  ): Promise<IUser[] | null> {
+    try {
+      return await User.find({ _id: { $in: ids } });
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
   // get user by email and statusDB = true
 
   public static async getUserByEmail(email: string): Promise<IUser | null> {
@@ -146,6 +159,42 @@ class UserModel {
       return await User.findOneAndUpdate(
         { _id: id },
         { $pull: { owner_products_id: wakureId } },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // add user to friends_id
+
+  public static async addUserToFriendsId(
+    id: string,
+    friendId: string
+  ): Promise<IUser | null> {
+    try {
+      return await User.findOneAndUpdate(
+        { _id: id },
+        { $push: { friends_id: friendId } },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // delete user from friends_id
+
+  public static async deleteUserFromFriendsId(
+    id: string,
+    friendId: string
+  ): Promise<IUser | null> {
+    try {
+      return await User.findOneAndUpdate(
+        { _id: id },
+        { $pull: { friends_id: friendId } },
         { new: true }
       );
     } catch (error) {

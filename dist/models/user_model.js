@@ -54,6 +54,18 @@ class UserModel {
             return null;
         });
     }
+    // get users by ids
+    static getUsersByIds(ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_schema_1.default.find({ _id: { $in: ids } });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
     // get user by email and statusDB = true
     static getUserByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -143,6 +155,30 @@ class UserModel {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield user_schema_1.default.findOneAndUpdate({ _id: id }, { $pull: { owner_products_id: wakureId } }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // add user to friends_id
+    static addUserToFriendsId(id, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_schema_1.default.findOneAndUpdate({ _id: id }, { $push: { friends_id: friendId } }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // delete user from friends_id
+    static deleteUserFromFriendsId(id, friendId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield user_schema_1.default.findOneAndUpdate({ _id: id }, { $pull: { friends_id: friendId } }, { new: true });
             }
             catch (error) {
                 console.log(error);

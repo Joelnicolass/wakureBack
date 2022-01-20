@@ -12,6 +12,9 @@ router.get("/", userController.getAllUsers);
 // get user by name -----------------------------------------------------
 // { name: string } -> { status 200, json user }
 router.get("/:name", userController.getUserByName);
+// get user by id -----------------------------------------------------
+// { id: string } -> { status 200, json user }
+router.get("/id/:id", userController.getUserById);
 //-------------------------------------------------------
 // get my wakures -----------------------------------------------------
 // consulta para obtener los datos de los wakures del usuario
@@ -41,10 +44,7 @@ router.delete(
 
 //update Wakure Name by Id
 // { id: string, name: string } -> { status 200, json wakure }
-router.put(
-  "/:id/wakure/:code",
-  userController.updateWakureNameById
-);
+router.put("/:id/wakure/:code", userController.updateWakureNameById);
 
 // export
 export default router;

@@ -54,6 +54,24 @@ class UserController {
             }
         });
     }
+    // get user by id
+    getUserById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            try {
+                const user = yield user_model_1.default.getUserById(id);
+                if (user !== null) {
+                    res.status(200).json({ user });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
     // post -----------------------------------------------------
     // put -----------------------------------------------------
     updatePassword(req, res) {

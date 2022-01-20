@@ -41,6 +41,23 @@ class UserController {
     }
   }
 
+  // get user by id
+  public async getUserById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    try {
+      const user = await UserModel.getUserById(id);
+      if (user !== null) {
+        res.status(200).json({ user });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
   // post -----------------------------------------------------
 
   // put -----------------------------------------------------
@@ -284,9 +301,7 @@ class UserController {
     }
   }
 
-
   // upload Wakure Name by Id
-
 
   public async updateWakureNameById(
     req: Request,
@@ -306,8 +321,6 @@ class UserController {
 
     //TODO verify user exist and has owner
 
-
-
     // update name wakure
 
     try {
@@ -325,14 +338,6 @@ class UserController {
       return;
     }
   }
-
-
-
 }
-
-
-
-
-
 
 export const userController = new UserController();
