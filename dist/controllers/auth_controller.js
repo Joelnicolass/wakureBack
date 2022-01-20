@@ -26,13 +26,13 @@ class AuthController {
             // validate
             if (!validator_1.default.fieldsCreateUser(body)) {
                 res.status(400).json({
-                    msg: "name and password are required",
+                    msg: "All fields are required",
                 });
                 return;
             }
             if (!validator_1.default.validateLength(body)) {
                 res.status(400).json({
-                    msg: "password must be at least 6 characters",
+                    msg: "Password must be at least 6 characters",
                 });
                 return;
             }
@@ -40,7 +40,7 @@ class AuthController {
             try {
                 if (yield validator_1.default.verifyEmail(body.email)) {
                     res.status(400).json({
-                        msg: "email already exists",
+                        msg: "Email already exists",
                     });
                     return;
                 }
@@ -90,7 +90,7 @@ class AuthController {
             // validate fields
             if (!validator_1.default.fieldsLoginUser(body)) {
                 res.status(400).json({
-                    msg: "email and password are required",
+                    msg: "Email and password are required",
                 });
                 return;
             }
@@ -98,7 +98,7 @@ class AuthController {
             try {
                 if (!(yield validator_1.default.verifyEmail(body.email))) {
                     res.status(400).json({
-                        msg: "user does not exist",
+                        msg: "User does not exist",
                     });
                     return;
                 }
@@ -116,7 +116,7 @@ class AuthController {
                     const matchPassword = yield user.matchPassword(body.password);
                     if (!matchPassword) {
                         res.status(400).json({
-                            msg: "password is incorrect",
+                            msg: "Password is incorrect",
                         });
                         return;
                     }
