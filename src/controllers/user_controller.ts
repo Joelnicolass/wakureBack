@@ -295,6 +295,7 @@ class UserController {
     const { id, code } = req.params;
     const { body } = req;
 
+    
     // verify if wakure exists
 
     if (!(await Validator.verifyWakure(code))) {
