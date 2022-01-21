@@ -63,7 +63,7 @@ class AuthController {
                 role: roles_enum_1.Roles.CLIENT,
                 owner_products_id: [""],
                 client_products_id: [""],
-                friend_renting_id: [""],
+                ticket_id: [""],
                 friends_id: [""],
                 statusDB: true,
             };

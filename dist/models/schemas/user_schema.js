@@ -58,7 +58,7 @@ const userSchema = new mongoose_1.default.Schema({
         type: [String],
         required: false,
     },
-    friend_renting_id: {
+    ticket_id: {
         type: [String],
         required: false,
     },

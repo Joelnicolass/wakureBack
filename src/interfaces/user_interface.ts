@@ -12,7 +12,7 @@ export interface IUser extends mongoose.Document {
   password: string;
   owner_products_id: Array<string>;
   client_products_id: Array<string>;
-  friend_renting_id: Array<string>;
+  ticket_id: Array<string>;
   friends_id: Array<string>;
   statusDB: boolean;
   encryptPassword(password: string): Promise<string>;

@@ -29,7 +29,7 @@ class UserModel {
                     password: user.password,
                     owner_products_id: user.owner_products_id,
                     client_products_id: user.client_products_id,
-                    friend_renting_id: user.friend_renting_id,
+                    ticket_id: user.ticket_id,
                     friends_id: user.friends_id,
                     statusDB: true,
                 });

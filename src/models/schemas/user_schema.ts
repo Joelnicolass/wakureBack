@@ -48,7 +48,7 @@ const userSchema = new mongoose.Schema<IUser>({
     type: [String],
     required: false,
   },
-  friend_renting_id: {
+  ticket_id: {
     type: [String],
     required: false,
   },
