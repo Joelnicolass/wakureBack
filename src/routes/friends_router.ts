@@ -17,4 +17,6 @@ router.delete("/:id/delete", friendsController.deleteFriend);
 // get friend by id ----------------------------------------------------------
 router.get("/:id/get/:idFriend", friendsController.getFriendById);
 
+//TODO SEND SOLICITATION TO FRIEND
+
 export default router;

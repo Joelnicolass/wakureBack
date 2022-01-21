@@ -21,10 +21,20 @@ class FriendsController {
         return __awaiter(this, void 0, void 0, function* () {
             const { friend_id } = req.body;
             const { id } = req.params;
+            let user;
+            // verify if user exist
             try {
-                if (!(yield validator_1.default.verifyUserById(id))) {
+                user = yield user_model_1.default.getUserById(id);
+                if (!user) {
                     res.status(400).json({
                         msg: "user not exists",
+                    });
+                    return;
+                }
+                // verify if already friend
+                if (user.friends_id.includes(friend_id)) {
+                    res.status(400).json({
+                        msg: "friend already exists",
                     });
                     return;
                 }
@@ -47,6 +57,8 @@ class FriendsController {
                 res.status(500).json({ msg: "error" });
                 return;
             }
+            // save friend
+            //TODO SEND SOLICITATION TO FRIEND
             try {
                 const user = yield user_model_1.default.addUserToFriendsId(id, friend_id);
                 res.status(200).json({ user });

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { IUser } from "../interfaces/user_interface";
 import UserModel from "../models/user_model";
 import Validator from "../utils/validator";
 
@@ -8,10 +9,22 @@ class FriendsController {
     const { friend_id } = req.body;
     const { id } = req.params;
 
+    let user: IUser | null;
+
+    // verify if user exist
     try {
-      if (!(await Validator.verifyUserById(id))) {
+      user = await UserModel.getUserById(id);
+
+      if (!user) {
         res.status(400).json({
           msg: "user not exists",
+        });
+        return;
+      }
+      // verify if already friend
+      if (user.friends_id.includes(friend_id)) {
+        res.status(400).json({
+          msg: "friend already exists",
         });
         return;
       }
@@ -33,6 +46,10 @@ class FriendsController {
       res.status(500).json({ msg: "error" });
       return;
     }
+
+    // save friend
+
+    //TODO SEND SOLICITATION TO FRIEND
 
     try {
       const user = await UserModel.addUserToFriendsId(id, friend_id);
