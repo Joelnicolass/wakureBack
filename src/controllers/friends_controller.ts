@@ -67,6 +67,8 @@ class FriendsController {
     const { name, surname, email, address, phone } = req.body;
     const { id } = req.params;
 
+    console.log(name, surname, email, address, phone);
+
     let owner: IUser | null;
     let friend: IUser | null;
 
@@ -171,6 +173,8 @@ class FriendsController {
   public async getFriends(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
+    let user: IUser | null;
+
     try {
       if (!(await Validator.verifyUserById(id))) {
         res.status(400).json({
@@ -187,34 +191,49 @@ class FriendsController {
 
     try {
       // get user info
-      const user = await UserModel.getUserById(id);
+      user = await UserModel.getUserById(id);
 
-      // get friends from user
-      const friends = user?.friends_id;
-
-      // prepare info
-
-      if (friends !== undefined) {
-        if (friends[0] === "") {
-          friends.shift();
-        }
-
-        if (friends.length === 0) {
-          res.status(200).json({
-            friends: [],
-          });
-        }
+      if (!user) {
+        res.status(400).json({
+          msg: "user not exists",
+        });
+        return;
       }
-
-      // get info from friends
-      const friends_info = await UserModel.getUsersByIds(friends);
-
-      res.status(200).json(friends_info);
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error" });
       return;
     }
+
+    // get friends from user
+    const friends = user?.friends_id;
+
+    // prepare info
+
+    if (friends !== undefined) {
+      if (friends[0] === "") {
+        friends.shift();
+      }
+
+      if (friends.length === 0) {
+        res.status(400).json({
+          msg: "no friends",
+        });
+        return;
+      }
+    }
+
+    try {
+      const friends_info = await UserModel.getUsersByIds(friends);
+      res.status(200).json(friends_info);
+      return;
+    } catch (error) {}
+
+    res.status(400).json({
+      msg: "no friends",
+    });
+
+    return;
   }
 
   // get friend by id ----------------------------------------------------------

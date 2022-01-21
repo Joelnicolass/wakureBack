@@ -72,7 +72,7 @@ class Validator {
   public static async verifyUserById(id: string): Promise<boolean> {
     try {
       const user = await UserModel.getUserById(id);
-      console.log(user);
+
       if (user !== null) {
         return true;
       } else {

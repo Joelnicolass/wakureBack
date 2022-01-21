@@ -75,6 +75,7 @@ class FriendsController {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, surname, email, address, phone } = req.body;
             const { id } = req.params;
+            console.log(name, surname, email, address, phone);
             let owner;
             let friend;
             // verify if user exist
@@ -174,6 +175,7 @@ class FriendsController {
     getFriends(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            let user;
             try {
                 if (!(yield validator_1.default.verifyUserById(id))) {
                     res.status(400).json({
@@ -189,29 +191,43 @@ class FriendsController {
             }
             try {
                 // get user info
-                const user = yield user_model_1.default.getUserById(id);
-                // get friends from user
-                const friends = user === null || user === void 0 ? void 0 : user.friends_id;
-                // prepare info
-                if (friends !== undefined) {
-                    if (friends[0] === "") {
-                        friends.shift();
-                    }
-                    if (friends.length === 0) {
-                        res.status(200).json({
-                            friends: [],
-                        });
-                    }
+                user = yield user_model_1.default.getUserById(id);
+                if (!user) {
+                    res.status(400).json({
+                        msg: "user not exists",
+                    });
+                    return;
                 }
-                // get info from friends
-                const friends_info = yield user_model_1.default.getUsersByIds(friends);
-                res.status(200).json(friends_info);
             }
             catch (error) {
                 console.log(error);
                 res.status(500).json({ msg: "error" });
                 return;
             }
+            // get friends from user
+            const friends = user === null || user === void 0 ? void 0 : user.friends_id;
+            // prepare info
+            if (friends !== undefined) {
+                if (friends[0] === "") {
+                    friends.shift();
+                }
+                if (friends.length === 0) {
+                    res.status(400).json({
+                        msg: "no friends",
+                    });
+                    return;
+                }
+            }
+            try {
+                const friends_info = yield user_model_1.default.getUsersByIds(friends);
+                res.status(200).json(friends_info);
+                return;
+            }
+            catch (error) { }
+            res.status(400).json({
+                msg: "no friends",
+            });
+            return;
         });
     }
     // get friend by id ----------------------------------------------------------
