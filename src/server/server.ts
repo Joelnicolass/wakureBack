@@ -3,6 +3,7 @@ import userRoutes from "../routes/user_router";
 import authRoutes from "../routes/auth_router";
 import wakureRoutes from "../routes/wakure_router";
 import friendsRoutes from "../routes/friends_router";
+import bookingRoutes from "../routes/booking_router";
 import cors from "cors";
 import { connect } from "../db/connection";
 import { tokenValidator } from "../utils/token_handler";
@@ -16,6 +17,7 @@ class Server {
     users: "/api/users",
     wakure: "/api/wakure",
     freinds: "/api/users/friends",
+    booking: "/api/booking",
   };
 
   constructor() {
@@ -50,6 +52,7 @@ class Server {
     this._app.use(this._ApiPaths.users, /* tokenValidator, */ userRoutes);
     this._app.use(this._ApiPaths.wakure, /* tokenValidator, */ wakureRoutes);
     this._app.use(this._ApiPaths.freinds, /* tokenValidator, */ friendsRoutes);
+    this._app.use(this._ApiPaths.booking, /* tokenValidator, */ bookingRoutes);
   }
 
   // server on

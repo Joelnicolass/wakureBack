@@ -17,6 +17,7 @@ const user_router_1 = __importDefault(require("../routes/user_router"));
 const auth_router_1 = __importDefault(require("../routes/auth_router"));
 const wakure_router_1 = __importDefault(require("../routes/wakure_router"));
 const friends_router_1 = __importDefault(require("../routes/friends_router"));
+const booking_router_1 = __importDefault(require("../routes/booking_router"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = require("../db/connection");
 // class server --------------------------------------
@@ -27,6 +28,7 @@ class Server {
             users: "/api/users",
             wakure: "/api/wakure",
             freinds: "/api/users/friends",
+            booking: "/api/booking",
         };
         this._app = (0, express_1.default)();
         this._port = process.env.PORT || "5000";
@@ -57,6 +59,7 @@ class Server {
         this._app.use(this._ApiPaths.users, /* tokenValidator, */ user_router_1.default);
         this._app.use(this._ApiPaths.wakure, /* tokenValidator, */ wakure_router_1.default);
         this._app.use(this._ApiPaths.freinds, /* tokenValidator, */ friends_router_1.default);
+        this._app.use(this._ApiPaths.booking, /* tokenValidator, */ booking_router_1.default);
     }
     // server on
     listen() {

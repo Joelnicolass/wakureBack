@@ -23,7 +23,6 @@ const ticketSchema = new mongoose.Schema<ITicket>({
     type: Number,
     required: true,
   },
-
   dateFrom: {
     type: String,
     required: true,

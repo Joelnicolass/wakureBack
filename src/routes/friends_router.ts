@@ -8,8 +8,12 @@ const router = Router();
 router.get("/:id/all", friendsController.getFriends);
 
 // add friend ----------------------------------------------------------
+
+router.put("/:id/requestFriend" /* friendsController.addFriend */); // TODO CAMBIAR TODO
+
+// add friend ----------------------------------------------------------
 // update friends_id
-router.put("/:id/add", friendsController.addFriend);
+router.put("/:id/add", friendsController.quickAddFriend);
 
 // delete friend ----------------------------------------------------------
 router.delete("/:id/delete", friendsController.deleteFriend);

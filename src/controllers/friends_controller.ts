@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
+import { Roles } from "../helpers/roles_enum";
 import { IUser } from "../interfaces/user_interface";
 import UserModel from "../models/user_model";
 import Validator from "../utils/validator";
 
 class FriendsController {
   // add friend ----------------------------------------------------------
-  public async addFriend(req: Request, res: Response): Promise<void> {
+  public async sendRequest(req: Request, res: Response): Promise<void> {
     const { friend_id } = req.body;
     const { id } = req.params;
 
@@ -39,6 +40,7 @@ class FriendsController {
         res.status(400).json({
           msg: "friend not exists",
         });
+
         return;
       }
     } catch (error) {
@@ -54,6 +56,67 @@ class FriendsController {
     try {
       const user = await UserModel.addUserToFriendsId(id, friend_id);
       res.status(200).json({ user });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+  public async quickAddFriend(req: Request, res: Response): Promise<void> {
+    const { name, surname, email, address, phone } = req.body;
+    const { id } = req.params;
+
+    let owner: IUser | null;
+    let friend: IUser | null;
+
+    // verify if user exist
+    try {
+      owner = await UserModel.getUserById(id);
+
+      if (!owner) {
+        res.status(400).json({
+          msg: "user not exists",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // create object user for friend
+
+    friend = <IUser>{
+      name: name,
+      surname: surname,
+      address: address,
+      phone: phone,
+      email: email,
+      password: "WAKURECLIENT",
+      role: Roles.CLIENT,
+      owner_products_id: [""],
+      client_products_id: [""],
+      ticket_id: [""],
+      friends_id: [""],
+      statusDB: true,
+    };
+
+    // create user
+    try {
+      friend = await UserModel.createUser(friend);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // save friend
+
+    try {
+      const owner = await UserModel.addUserToFriendsId(id, friend?.id);
+      res.status(200).json({ owner });
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error" });

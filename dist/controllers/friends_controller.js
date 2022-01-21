@@ -13,11 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.friendsController = void 0;
+const roles_enum_1 = require("../helpers/roles_enum");
 const user_model_1 = __importDefault(require("../models/user_model"));
 const validator_1 = __importDefault(require("../utils/validator"));
 class FriendsController {
     // add friend ----------------------------------------------------------
-    addFriend(req, res) {
+    sendRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { friend_id } = req.body;
             const { id } = req.params;
@@ -62,6 +63,63 @@ class FriendsController {
             try {
                 const user = yield user_model_1.default.addUserToFriendsId(id, friend_id);
                 res.status(200).json({ user });
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
+    quickAddFriend(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { name, surname, email, address, phone } = req.body;
+            const { id } = req.params;
+            let owner;
+            let friend;
+            // verify if user exist
+            try {
+                owner = yield user_model_1.default.getUserById(id);
+                if (!owner) {
+                    res.status(400).json({
+                        msg: "user not exists",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // create object user for friend
+            friend = {
+                name: name,
+                surname: surname,
+                address: address,
+                phone: phone,
+                email: email,
+                password: "WAKURECLIENT",
+                role: roles_enum_1.Roles.CLIENT,
+                owner_products_id: [""],
+                client_products_id: [""],
+                ticket_id: [""],
+                friends_id: [""],
+                statusDB: true,
+            };
+            // create user
+            try {
+                friend = yield user_model_1.default.createUser(friend);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // save friend
+            try {
+                const owner = yield user_model_1.default.addUserToFriendsId(id, friend === null || friend === void 0 ? void 0 : friend.id);
+                res.status(200).json({ owner });
             }
             catch (error) {
                 console.log(error);
