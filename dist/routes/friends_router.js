@@ -11,7 +11,7 @@ router.put("/:id/add", friends_controller_1.friendsController.addFriend);
 // delete friend ----------------------------------------------------------
 router.delete("/:id/delete", friends_controller_1.friendsController.deleteFriend);
 // get friend by id ----------------------------------------------------------
-router.get("/:id/get/:idFriend", friends_controller_1.friendsController.getFriendById);
+router.get("/:id/get", friends_controller_1.friendsController.getFriendById);
 //TODO SEND SOLICITATION TO FRIEND
 exports.default = router;
 //# sourceMappingURL=friends_router.js.map

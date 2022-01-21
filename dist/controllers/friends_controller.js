@@ -147,7 +147,7 @@ class FriendsController {
                 }
                 // get info from friends
                 const friends_info = yield user_model_1.default.getUsersByIds(friends);
-                res.status(200).json({ friends_info });
+                res.status(200).json(friends_info);
             }
             catch (error) {
                 console.log(error);
@@ -160,7 +160,8 @@ class FriendsController {
     getFriendById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const { friend_id } = req.params;
+            const { friend_id } = req.body;
+            console.log(friend_id);
             try {
                 if (!(yield validator_1.default.verifyUserById(id))) {
                     res.status(400).json({

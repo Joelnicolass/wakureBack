@@ -75,6 +75,7 @@ class Validator {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield user_model_1.default.getUserById(id);
+                console.log(user);
                 if (user !== null) {
                     return true;
                 }

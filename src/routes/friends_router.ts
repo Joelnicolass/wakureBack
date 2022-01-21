@@ -15,7 +15,7 @@ router.put("/:id/add", friendsController.addFriend);
 router.delete("/:id/delete", friendsController.deleteFriend);
 
 // get friend by id ----------------------------------------------------------
-router.get("/:id/get/:idFriend", friendsController.getFriendById);
+router.get("/:id/get", friendsController.getFriendById);
 
 //TODO SEND SOLICITATION TO FRIEND
 

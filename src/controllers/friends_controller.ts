@@ -146,7 +146,7 @@ class FriendsController {
       // get info from friends
       const friends_info = await UserModel.getUsersByIds(friends);
 
-      res.status(200).json({ friends_info });
+      res.status(200).json(friends_info);
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error" });
@@ -158,7 +158,9 @@ class FriendsController {
 
   public async getFriendById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
-    const { friend_id } = req.params;
+    const { friend_id } = req.body;
+
+    console.log(friend_id);
 
     try {
       if (!(await Validator.verifyUserById(id))) {
