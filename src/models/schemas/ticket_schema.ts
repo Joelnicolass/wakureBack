@@ -1,12 +1,7 @@
-import mongoose from "mongoose";
+import mongoose, { SchemaTypes } from "mongoose";
 import { ITicket } from "../../interfaces/ticket_interface";
 
 const ticketSchema = new mongoose.Schema<ITicket>({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   id_owner: {
     type: String,
     required: true,
@@ -40,7 +35,7 @@ const ticketSchema = new mongoose.Schema<ITicket>({
     required: true,
   },
   status: {
-    type: Boolean,
+    type: String,
     required: true,
   },
 });

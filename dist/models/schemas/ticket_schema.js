@@ -5,11 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const ticketSchema = new mongoose_1.default.Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     id_owner: {
         type: String,
         required: true,
@@ -43,7 +38,7 @@ const ticketSchema = new mongoose_1.default.Schema({
         required: true,
     },
     status: {
-        type: Boolean,
+        type: String,
         required: true,
     },
 });

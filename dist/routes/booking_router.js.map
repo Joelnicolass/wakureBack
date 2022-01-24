@@ -1,1 +1,1 @@
-{"version":3,"file":"booking_router.js","sourceRoot":"","sources":["../../src/routes/booking_router.ts"],"names":[],"mappings":";;AAAA,qCAAiC;AAEjC,MAAM,MAAM,GAAG,IAAA,gBAAM,GAAE,CAAC;AAExB,SAAS;AAET,kBAAe,MAAM,CAAC"}
+{"version":3,"file":"booking_router.js","sourceRoot":"","sources":["../../src/routes/booking_router.ts"],"names":[],"mappings":";;AAAA,qCAAiC;AACjC,0EAAsE;AAEtE,MAAM,MAAM,GAAG,IAAA,gBAAM,GAAE,CAAC;AAExB,SAAS;AAET,wFAAwF;AACxF,MAAM,CAAC,IAAI,CAAC,MAAM,EAAE,sCAAiB,CAAC,aAAa,CAAC,CAAC;AAErD,kBAAe,MAAM,CAAC"}
