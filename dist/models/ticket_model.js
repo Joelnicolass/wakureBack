@@ -49,6 +49,43 @@ class TicketModel {
             return null;
         });
     }
+    // get all tickets when status = PENDING and id_owner = id_owner
+    static getAllTicketsByIdOwner(id_owner) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield ticket_schema_1.default.find({ status: "PENDING", id_owner });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    /*   public static async getTicketsByIdWakure(
+      products_id: string[]
+    ): Promise<ITicket[] | null> {
+      try {
+        return await Ticket.find({
+          status: "PENDING",
+          id_wakure: { $in: products_id },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      return null;
+    }
+   */
+    static getAllTicketsByIdWakure(id_wakure) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield ticket_schema_1.default.find({ status: "PENDING", id_wakure });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
 }
 exports.default = TicketModel;
 //# sourceMappingURL=ticket_model.js.map

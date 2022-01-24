@@ -33,6 +33,45 @@ class TicketModel {
     }
     return null;
   }
+
+  // get all tickets when status = PENDING and id_owner = id_owner
+
+  public static async getAllTicketsByIdOwner(
+    id_owner: string
+  ): Promise<ITicket[] | null> {
+    try {
+      return await Ticket.find({ status: "PENDING", id_owner });
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  /*   public static async getTicketsByIdWakure(
+    products_id: string[]
+  ): Promise<ITicket[] | null> {
+    try {
+      return await Ticket.find({
+        status: "PENDING",
+        id_wakure: { $in: products_id },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+ */
+
+  public static async getAllTicketsByIdWakure(
+    id_wakure: string
+  ): Promise<ITicket[] | null> {
+    try {
+      return await Ticket.find({ status: "PENDING", id_wakure });
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
 }
 
 export default TicketModel;
