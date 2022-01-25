@@ -6,5 +6,7 @@ var TicketStatus;
     TicketStatus["PENDING"] = "PENDING";
     TicketStatus["CONFIRMED"] = "CONFIRMED";
     TicketStatus["CANCELLED"] = "CANCELLED";
+    TicketStatus["EXPIRED"] = "EXPIRED";
+    TicketStatus["PAID"] = "PAID";
 })(TicketStatus = exports.TicketStatus || (exports.TicketStatus = {}));
 //# sourceMappingURL=ticket_status_enum.js.map

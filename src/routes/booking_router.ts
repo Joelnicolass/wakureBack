@@ -6,9 +6,10 @@ const router = Router();
 // routes
 
 // verify availability ----------------------------------------------------------
-router.post("/verify", bookingController.verifyAvailability);
-
+router.post("/:id/verify", bookingController.verifyAvailability);
 // create ticket ----------------------------------------------------------
-router.post("/add", bookingController.createTicket);
+router.post("/:id/add", bookingController.createTicket);
+// update ticket status ----------------------------------------------------------
+router.put("/:id/updatestatus", bookingController.updateStatus);
 
 export default router;

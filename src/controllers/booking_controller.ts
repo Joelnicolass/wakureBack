@@ -14,6 +14,7 @@ import PrepareInfo from "../utils/prepare_info";
 class BookingController {
   public async verifyAvailability(req: Request, res: Response): Promise<void> {
     const { body } = req;
+    const { id } = req.params;
 
     // convert dateFrom and timeFrom to datetime moment
     const { dateFrom, dateTo, timeFrom, timeTo } = body;
@@ -45,7 +46,7 @@ class BookingController {
     let wakureAvailable: Array<string> | null = [];
 
     try {
-      user = await UserModel.getUserById(body.id_owner);
+      user = await UserModel.getUserById(id);
       if (user !== null) {
         owner_products_id = user.owner_products_id;
       } else {
@@ -168,6 +169,7 @@ class BookingController {
 
   public async createTicket(req: Request, res: Response): Promise<void> {
     const { body } = req;
+    const { id } = req.params;
 
     // convert dateFrom and timeFrom to datetime moment
     const { dateFrom, dateTo, timeFrom, timeTo } = body;
@@ -199,7 +201,7 @@ class BookingController {
     let wakureAvailable: Array<string> | null = [];
 
     try {
-      user = await UserModel.getUserById(body.id_owner);
+      user = await UserModel.getUserById(id);
       if (user !== null) {
         owner_products_id = user.owner_products_id;
       } else {
@@ -326,7 +328,7 @@ class BookingController {
     // create ticket object
 
     const newTticket = <ITicket>{
-      id_owner: body.id_owner,
+      id_owner: id,
       id_client: body.id_client,
       id_wakure: body.id_wakure,
       price: body.price,
@@ -350,6 +352,49 @@ class BookingController {
         wakuresUnava = [];
         return;
       }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+      return;
+    }
+  }
+
+  // update ticket status
+  public async updateStatus(req: Request, res: Response): Promise<void> {
+    // id
+    // status
+    // id_ticket
+    const { body } = req;
+    const { id } = req.params;
+
+    // get ticket
+    let ticket: ITicket | null;
+
+    try {
+      ticket = await TicketModel.getTicketById(body.id_ticket);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    if (ticket === null) {
+      res.status(400).json({ msg: "ticket not found" });
+      return;
+    }
+
+    // verify if the user is the owner of the ticket
+    if (ticket.id_owner !== id) {
+      res.status(400).json({ msg: "you are not the owner of the ticket" });
+      return;
+    }
+
+    try {
+      const newTicket = await TicketModel.updateStatus(
+        body.id_ticket,
+        body.status
+      );
+      res.status(200).json(newTicket);
     } catch (error) {
       console.log(error);
       res.status(500).send(error);

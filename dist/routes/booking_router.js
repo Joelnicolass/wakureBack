@@ -5,8 +5,10 @@ const booking_controller_1 = require("../controllers/booking_controller");
 const router = (0, express_1.Router)();
 // routes
 // verify availability ----------------------------------------------------------
-router.post("/verify", booking_controller_1.bookingController.verifyAvailability);
+router.post("/:id/verify", booking_controller_1.bookingController.verifyAvailability);
 // create ticket ----------------------------------------------------------
-router.post("/add", booking_controller_1.bookingController.createTicket);
+router.post("/:id/add", booking_controller_1.bookingController.createTicket);
+// update ticket status ----------------------------------------------------------
+router.put("/:id/updatestatus", booking_controller_1.bookingController.updateStatus);
 exports.default = router;
 //# sourceMappingURL=booking_router.js.map

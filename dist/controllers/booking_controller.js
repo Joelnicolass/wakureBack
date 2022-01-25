@@ -24,6 +24,7 @@ class BookingController {
     verifyAvailability(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { body } = req;
+            const { id } = req.params;
             // convert dateFrom and timeFrom to datetime moment
             const { dateFrom, dateTo, timeFrom, timeTo } = body;
             const { dateFromMoment, dateToMoment } = convert_timedate_1.default.convertToMoment(dateFrom, dateTo, timeFrom, timeTo);
@@ -44,7 +45,7 @@ class BookingController {
             let wakureUnavailable = [];
             let wakureAvailable = [];
             try {
-                user = yield user_model_1.default.getUserById(body.id_owner);
+                user = yield user_model_1.default.getUserById(id);
                 if (user !== null) {
                     owner_products_id = user.owner_products_id;
                 }
@@ -139,6 +140,7 @@ class BookingController {
     createTicket(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { body } = req;
+            const { id } = req.params;
             // convert dateFrom and timeFrom to datetime moment
             const { dateFrom, dateTo, timeFrom, timeTo } = body;
             const { dateFromMoment, dateToMoment } = convert_timedate_1.default.convertToMoment(dateFrom, dateTo, timeFrom, timeTo);
@@ -159,7 +161,7 @@ class BookingController {
             let wakureUnavailable = [];
             let wakureAvailable = [];
             try {
-                user = yield user_model_1.default.getUserById(body.id_owner);
+                user = yield user_model_1.default.getUserById(id);
                 if (user !== null) {
                     owner_products_id = user.owner_products_id;
                 }
@@ -255,7 +257,7 @@ class BookingController {
             }
             // create ticket object
             const newTticket = {
-                id_owner: body.id_owner,
+                id_owner: id,
                 id_client: body.id_client,
                 id_wakure: body.id_wakure,
                 price: body.price,
@@ -277,6 +279,44 @@ class BookingController {
                     wakuresUnava = [];
                     return;
                 }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).send(error);
+                return;
+            }
+        });
+    }
+    // update ticket status
+    updateStatus(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // id
+            // status
+            // id_ticket
+            const { body } = req;
+            const { id } = req.params;
+            // get ticket
+            let ticket;
+            try {
+                ticket = yield ticket_model_1.default.getTicketById(body.id_ticket);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            if (ticket === null) {
+                res.status(400).json({ msg: "ticket not found" });
+                return;
+            }
+            // verify if the user is the owner of the ticket
+            if (ticket.id_owner !== id) {
+                res.status(400).json({ msg: "you are not the owner of the ticket" });
+                return;
+            }
+            try {
+                const newTicket = yield ticket_model_1.default.updateStatus(body.id_ticket, body.status);
+                res.status(200).json(newTicket);
             }
             catch (error) {
                 console.log(error);

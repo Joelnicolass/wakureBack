@@ -47,26 +47,43 @@ class TicketModel {
     return null;
   }
 
-  /*   public static async getTicketsByIdWakure(
-    products_id: string[]
-  ): Promise<ITicket[] | null> {
-    try {
-      return await Ticket.find({
-        status: "PENDING",
-        id_wakure: { $in: products_id },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    return null;
-  }
- */
+  // get all tickets by id wakure
 
   public static async getAllTicketsByIdWakure(
     id_wakure: string
   ): Promise<ITicket[] | null> {
     try {
       return await Ticket.find({ status: "PENDING", id_wakure });
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // get ticket by id_ticket
+  public static async getTicketById(
+    id_ticket: string
+  ): Promise<ITicket | null> {
+    try {
+      return await Ticket.findById(id_ticket);
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  // update status of ticket
+
+  public static async updateStatus(
+    id_ticket: string,
+    status: string
+  ): Promise<ITicket | null> {
+    try {
+      return await Ticket.findOneAndUpdate(
+        { id_ticket },
+        { status },
+        { new: true }
+      );
     } catch (error) {
       console.log(error);
     }
