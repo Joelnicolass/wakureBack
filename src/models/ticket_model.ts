@@ -34,9 +34,59 @@ class TicketModel {
     return null;
   }
 
-  // get all tickets when status = PENDING and id_owner = id_owner
-
+  // get all tickets when status = PENDING and id_owner = id_owner and join with collection wakures with lookup
   public static async getAllTicketsByIdOwner(
+    id_owner: string
+  ): Promise<ITicket[] | null> {
+    try {
+      return await Ticket.aggregate([
+        {
+          $lookup: {
+            from: "wakures",
+            localField: "id_wakure",
+            foreignField: "id",
+            as: "wakure",
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            let: { searchId: { $toObjectId: "$id_client" } },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$_id", "$$searchId"],
+                  },
+                },
+              },
+              {
+                $project: {
+                  _id: 0,
+                  name: 1,
+                  email: 1,
+                  phone: 1,
+                  address: 1,
+                },
+              },
+            ],
+            as: "client",
+          },
+        },
+        {
+          $match: {
+            status: "PENDING",
+            id_owner: id_owner,
+          },
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
+
+  /* public static async getAllTicketsByIdOwner(
     id_owner: string
   ): Promise<ITicket[] | null> {
     try {
@@ -45,7 +95,7 @@ class TicketModel {
       console.log(error);
     }
     return null;
-  }
+  } */
 
   // get all tickets by id wakure
 
