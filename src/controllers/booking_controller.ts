@@ -268,6 +268,9 @@ class BookingController {
       }
     }
 
+    console.log(wakureUnavailable);
+    console.log(wakureAvailable);
+
     if (wakureUnavailable !== null) {
       wakureAvailable = owner_products_id.filter(
         (id) => !wakureUnavailable!.includes(id)
@@ -327,7 +330,7 @@ class BookingController {
 
     // create ticket object
 
-    const newTticket = <ITicket>{
+    const newTicket = <ITicket>{
       id_owner: id,
       id_client: body.id_client,
       id_wakure: body.id_wakure,
@@ -342,9 +345,10 @@ class BookingController {
     // create ticket in DB
 
     try {
-      const newTicket = await TicketModel.createTicket(newTticket);
-      if (newTicket !== null) {
-        res.status(200).json(newTticket);
+      const newTicketSave = await TicketModel.createTicket(newTicket);
+
+      if (newTicketSave !== null) {
+        res.status(200).json(newTicketSave);
         // reset arrays
         wakureUnavailable = [];
         wakureAvailable = [];
@@ -400,6 +404,29 @@ class BookingController {
       res.status(500).send(error);
       return;
     }
+  }
+
+  // get all tickets by id_owner and status = PENDING
+
+  public async getAllTickets(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    let tickets: Array<ITicket> | null;
+
+    try {
+      tickets = await TicketModel.getAllTicketsByIdOwner(id);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    if (tickets === null) {
+      res.status(400).json({ msg: "ticket not found" });
+      return;
+    }
+
+    res.status(200).json(tickets);
   }
 }
 

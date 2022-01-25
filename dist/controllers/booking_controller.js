@@ -206,6 +206,8 @@ class BookingController {
                     return;
                 }
             }
+            console.log(wakureUnavailable);
+            console.log(wakureAvailable);
             if (wakureUnavailable !== null) {
                 wakureAvailable = owner_products_id.filter((id) => !wakureUnavailable.includes(id));
             }
@@ -256,7 +258,7 @@ class BookingController {
                 }
             }
             // create ticket object
-            const newTticket = {
+            const newTicket = {
                 id_owner: id,
                 id_client: body.id_client,
                 id_wakure: body.id_wakure,
@@ -269,9 +271,9 @@ class BookingController {
             };
             // create ticket in DB
             try {
-                const newTicket = yield ticket_model_1.default.createTicket(newTticket);
-                if (newTicket !== null) {
-                    res.status(200).json(newTticket);
+                const newTicketSave = yield ticket_model_1.default.createTicket(newTicket);
+                if (newTicketSave !== null) {
+                    res.status(200).json(newTicketSave);
                     // reset arrays
                     wakureUnavailable = [];
                     wakureAvailable = [];
@@ -323,6 +325,26 @@ class BookingController {
                 res.status(500).send(error);
                 return;
             }
+        });
+    }
+    // get all tickets by id_owner and status = PENDING
+    getAllTickets(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            let tickets;
+            try {
+                tickets = yield ticket_model_1.default.getAllTicketsByIdOwner(id);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            if (tickets === null) {
+                res.status(400).json({ msg: "ticket not found" });
+                return;
+            }
+            res.status(200).json(tickets);
         });
     }
 }
