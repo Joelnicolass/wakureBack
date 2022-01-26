@@ -20,6 +20,7 @@ const user_model_1 = __importDefault(require("../models/user_model"));
 const wakure_model_1 = __importDefault(require("../models/wakure_model"));
 const moment_1 = __importDefault(require("moment"));
 const prepare_info_1 = __importDefault(require("../utils/prepare_info"));
+const booking_process_1 = __importDefault(require("../utils/booking_process"));
 class BookingController {
     verifyAvailability(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -44,14 +45,14 @@ class BookingController {
             for (let i = dateFromMoment; i.isBefore(dateToMoment); i.add(1, "days")) {
                 daysBooking.push(i.day());
             }
-            console.log(daysBooking);
+            // console.log(daysBooking);
             //TODO TODO TODO TODO TODO
             // get info from user
             let user;
             let owner_products_id;
             let tickets;
-            let wakureUnavailable = [];
-            let wakureAvailable = [];
+            let wakureUnavailableIds = [];
+            let wakureAvailableIds = [];
             try {
                 user = yield user_model_1.default.getUserById(id);
                 if (user !== null) {
@@ -82,11 +83,11 @@ class BookingController {
                             const { dateFromMoment: ticketDateFromMoment, dateToMoment: ticketDateToMoment, } = convert_timedate_1.default.convertToMoment(ticket.dateFrom, ticket.dateTo, ticket.timeFrom, ticket.timeTo);
                             if (dateFromMoment.isBetween(ticketDateFromMoment, ticketDateToMoment, null, "[]") ||
                                 dateToMoment.isBetween(ticketDateFromMoment, ticketDateToMoment, null, "[]")) {
-                                if (wakureUnavailable.length === 0) {
-                                    wakureUnavailable = [owner_products_id[i]];
+                                if (wakureUnavailableIds.length === 0) {
+                                    wakureUnavailableIds = [owner_products_id[i]];
                                 }
                                 else {
-                                    wakureUnavailable.push(owner_products_id[i]);
+                                    wakureUnavailableIds.push(owner_products_id[i]);
                                 }
                             }
                         }
@@ -98,31 +99,21 @@ class BookingController {
                     return;
                 }
             }
-            if (wakureUnavailable !== null) {
-                wakureAvailable = owner_products_id.filter((id) => !wakureUnavailable.includes(id));
+            if (wakureUnavailableIds !== null) {
+                wakureAvailableIds = owner_products_id.filter((id) => !wakureUnavailableIds.includes(id));
             }
             // get info from wakure
-            let wakuresAva;
+            let wakuresAvailablesObjects;
+            let filterDays = [];
             //TODO TODO TODO TODO TODO
             let daysUnavailable;
             try {
-                wakuresAva = yield wakure_model_1.default.getWakuresByIds(wakureAvailable);
-                if (wakuresAva !== null) {
-                    for (let i = 0; i < wakuresAva.length; i++) {
-                        const wakure = wakuresAva[i];
-                        for (let j = 0; j < daysBooking.length; j++) {
-                            const day = daysBooking[j];
-                            daysUnavailable = wakure.availablesDays.includes(day)
-                                ? [day]
-                                : null;
-                            if (daysUnavailable === null) {
-                                console.log("el wakure " + wakure.name + " no esta disponible");
-                                wakureUnavailable.push(wakure.id);
-                                break;
-                            }
-                        }
-                    }
+                wakuresAvailablesObjects = yield wakure_model_1.default.getWakuresByIds(wakureAvailableIds);
+                if (wakuresAvailablesObjects !== null) {
+                    filterDays = booking_process_1.default.getWakureIdWithFilterDays(wakuresAvailablesObjects, daysBooking);
                 }
+                wakureUnavailableIds.push(...filterDays);
+                console.log("ids wakure " + filterDays);
                 // check if wakure is available
             }
             catch (error) {
@@ -130,9 +121,9 @@ class BookingController {
                 res.status(500).json({ msg: "error" });
                 return;
             }
-            let wakuresUnava;
+            let wakureUnavailableObjects;
             try {
-                wakuresUnava = yield wakure_model_1.default.getWakuresByIds(wakureUnavailable);
+                wakureUnavailableObjects = yield wakure_model_1.default.getWakuresByIds(wakureUnavailableIds);
             }
             catch (error) {
                 console.log(error);
@@ -140,19 +131,19 @@ class BookingController {
                 return;
             }
             // create object to send
-            wakuresAva = wakuresAva.filter((wakure) => !wakureUnavailable.includes(wakure.id));
+            wakuresAvailablesObjects = wakuresAvailablesObjects.filter((wakure) => !wakureUnavailableIds.includes(wakure.id));
             const availability = {
-                wakuresAvailable: wakuresAva,
-                wakuresUnavailable: wakuresUnava,
+                wakuresAvailable: wakuresAvailablesObjects,
+                wakuresUnavailable: wakureUnavailableObjects,
             };
             res.status(200).json(availability);
             console.log("======================================");
             console.log(availability);
             // reset arrays
-            wakureUnavailable = [];
-            wakureAvailable = [];
-            wakuresAva = [];
-            wakuresUnava = [];
+            wakureUnavailableIds = [];
+            wakureAvailableIds = [];
+            wakuresAvailablesObjects = [];
+            wakureUnavailableObjects = [];
             return;
         });
     }

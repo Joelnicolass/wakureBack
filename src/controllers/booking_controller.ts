@@ -11,6 +11,7 @@ import { DaysName } from "../helpers/days_enum";
 
 import moment from "moment";
 import PrepareInfo from "../utils/prepare_info";
+import BookingUtils from "../utils/booking_process";
 
 class BookingController {
   public async verifyAvailability(req: Request, res: Response): Promise<void> {
@@ -47,7 +48,7 @@ class BookingController {
       daysBooking.push(i.day());
     }
 
-    console.log(daysBooking);
+    // console.log(daysBooking);
 
     //TODO TODO TODO TODO TODO
 
@@ -55,8 +56,8 @@ class BookingController {
     let user: IUser | null;
     let owner_products_id: Array<string> | null;
     let tickets: Array<ITicket> | null;
-    let wakureUnavailable: Array<string> | null = [];
-    let wakureAvailable: Array<string> | null = [];
+    let wakureUnavailableIds: Array<string> | null = [];
+    let wakureAvailableIds: Array<string> | null = [];
 
     try {
       user = await UserModel.getUserById(id);
@@ -111,10 +112,10 @@ class BookingController {
                 "[]"
               )
             ) {
-              if (wakureUnavailable.length === 0) {
-                wakureUnavailable = [owner_products_id[i]];
+              if (wakureUnavailableIds.length === 0) {
+                wakureUnavailableIds = [owner_products_id[i]];
               } else {
-                wakureUnavailable.push(owner_products_id[i]);
+                wakureUnavailableIds.push(owner_products_id[i]);
               }
             }
           }
@@ -126,36 +127,31 @@ class BookingController {
       }
     }
 
-    if (wakureUnavailable !== null) {
-      wakureAvailable = owner_products_id.filter(
-        (id) => !wakureUnavailable!.includes(id)
+    if (wakureUnavailableIds !== null) {
+      wakureAvailableIds = owner_products_id.filter(
+        (id) => !wakureUnavailableIds!.includes(id)
       );
     }
 
     // get info from wakure
-    let wakuresAva: Array<IWakure> | null;
-
+    let wakuresAvailablesObjects: Array<IWakure> | null;
+    let filterDays: Array<string> = [];
     //TODO TODO TODO TODO TODO
     let daysUnavailable: Array<Number> | null;
     try {
-      wakuresAva = await WakureModel.getWakuresByIds(wakureAvailable);
-      if (wakuresAva !== null) {
-        for (let i = 0; i < wakuresAva.length; i++) {
-          const wakure = wakuresAva[i];
-          for (let j = 0; j < daysBooking.length; j++) {
-            const day = daysBooking[j];
-            daysUnavailable = wakure.availablesDays.includes(day)
-              ? [day]
-              : null;
-            if (daysUnavailable === null) {
-              console.log("el wakure " + wakure.name + " no esta disponible");
-              wakureUnavailable.push(wakure.id);
-
-              break;
-            }
-          }
-        }
+      wakuresAvailablesObjects = await WakureModel.getWakuresByIds(
+        wakureAvailableIds
+      );
+      if (wakuresAvailablesObjects !== null) {
+        filterDays = BookingUtils.getWakureIdWithFilterDays(
+          wakuresAvailablesObjects,
+          daysBooking
+        );
       }
+
+      wakureUnavailableIds.push(...filterDays);
+
+      console.log("ids wakure " + filterDays);
 
       // check if wakure is available
     } catch (error) {
@@ -164,9 +160,11 @@ class BookingController {
       return;
     }
 
-    let wakuresUnava: Array<IWakure> | null;
+    let wakureUnavailableObjects: Array<IWakure> | null;
     try {
-      wakuresUnava = await WakureModel.getWakuresByIds(wakureUnavailable);
+      wakureUnavailableObjects = await WakureModel.getWakuresByIds(
+        wakureUnavailableIds
+      );
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error" });
@@ -175,13 +173,13 @@ class BookingController {
 
     // create object to send
 
-    wakuresAva = wakuresAva!.filter(
-      (wakure) => !wakureUnavailable!.includes(wakure.id)
+    wakuresAvailablesObjects = wakuresAvailablesObjects!.filter(
+      (wakure) => !wakureUnavailableIds!.includes(wakure.id)
     );
 
     const availability = {
-      wakuresAvailable: wakuresAva,
-      wakuresUnavailable: wakuresUnava,
+      wakuresAvailable: wakuresAvailablesObjects,
+      wakuresUnavailable: wakureUnavailableObjects,
     };
 
     res.status(200).json(availability);
@@ -190,10 +188,10 @@ class BookingController {
     console.log(availability);
 
     // reset arrays
-    wakureUnavailable = [];
-    wakureAvailable = [];
-    wakuresAva = [];
-    wakuresUnava = [];
+    wakureUnavailableIds = [];
+    wakureAvailableIds = [];
+    wakuresAvailablesObjects = [];
+    wakureUnavailableObjects = [];
 
     return;
   }
