@@ -38,6 +38,13 @@ class BookingController {
                 res.status(400).json({ msg: "dateFrom is before now" });
                 return;
             }
+            //TODO TODO TODO TODO TODO
+            let daysBooking = [];
+            // get all days between dateFrom and dateTo
+            for (let i = dateFromMoment; i.isBefore(dateToMoment); i.add(1, "days")) {
+                daysBooking.push(i.day());
+            }
+            //TODO TODO TODO TODO TODO
             // get info from user
             let user;
             let owner_products_id;

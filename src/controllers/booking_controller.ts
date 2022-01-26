@@ -7,6 +7,7 @@ import { IUser } from "../interfaces/user_interface";
 import UserModel from "../models/user_model";
 import WakureModel from "../models/wakure_model";
 import { IWakure } from "../interfaces/wakure_interface";
+import { DaysName } from "../helpers/days_enum";
 
 import moment from "moment";
 import PrepareInfo from "../utils/prepare_info";
@@ -37,6 +38,15 @@ class BookingController {
       res.status(400).json({ msg: "dateFrom is before now" });
       return;
     }
+
+    //TODO TODO TODO TODO TODO
+    let daysBooking: Array<DaysName> = [];
+
+    // get all days between dateFrom and dateTo
+    for (let i = dateFromMoment; i.isBefore(dateToMoment); i.add(1, "days")) {
+      daysBooking.push(i.day());
+    }
+    //TODO TODO TODO TODO TODO
 
     // get info from user
     let user: IUser | null;
