@@ -115,18 +115,8 @@ class BookingController {
             }
             // create object to send
             const availability = {
-                wakuresAvailable: wakuresAva.map((wakure) => {
-                    return {
-                        id: wakure.id,
-                        name: wakure.name,
-                    };
-                }),
-                wakuresUnavailable: wakuresUnava.map((wakure) => {
-                    return {
-                        id: wakure.id,
-                        name: wakure.name,
-                    };
-                }),
+                wakuresAvailable: wakuresAva,
+                wakuresUnavailable: wakuresUnava,
             };
             res.status(200).json(availability);
             // reset arrays

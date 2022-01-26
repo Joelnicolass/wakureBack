@@ -78,6 +78,7 @@ class TicketModel {
                                     $project: {
                                         _id: 0,
                                         name: 1,
+                                        surname: 1,
                                         email: 1,
                                         phone: 1,
                                         address: 1,
