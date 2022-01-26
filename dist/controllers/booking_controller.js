@@ -44,6 +44,7 @@ class BookingController {
             for (let i = dateFromMoment; i.isBefore(dateToMoment); i.add(1, "days")) {
                 daysBooking.push(i.day());
             }
+            console.log(daysBooking);
             //TODO TODO TODO TODO TODO
             // get info from user
             let user;
@@ -102,14 +103,15 @@ class BookingController {
             }
             // get info from wakure
             let wakuresAva;
+            //TODO TODO TODO TODO TODO
             let daysUnavailable;
             try {
                 wakuresAva = yield wakure_model_1.default.getWakuresByIds(wakureAvailable);
                 if (wakuresAva !== null) {
                     for (let i = 0; i < wakuresAva.length; i++) {
                         const wakure = wakuresAva[i];
-                        for (let j = 0; j < 7; j++) {
-                            const day = j;
+                        for (let j = 0; j < daysBooking.length; j++) {
+                            const day = daysBooking[j];
                             daysUnavailable = wakure.availablesDays.includes(day)
                                 ? [day]
                                 : null;
