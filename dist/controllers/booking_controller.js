@@ -68,7 +68,6 @@ class BookingController {
             }
             // verify if the wakure is available
             owner_products_id = prepare_info_1.default.formatArray(owner_products_id);
-            console.log(owner_products_id);
             if (owner_products_id === null) {
                 res.status(500).json({ msg: "error" });
                 return;
@@ -103,8 +102,26 @@ class BookingController {
             }
             // get info from wakure
             let wakuresAva;
+            let daysUnavailable;
             try {
                 wakuresAva = yield wakure_model_1.default.getWakuresByIds(wakureAvailable);
+                if (wakuresAva !== null) {
+                    for (let i = 0; i < wakuresAva.length; i++) {
+                        const wakure = wakuresAva[i];
+                        for (let j = 0; j < 7; j++) {
+                            const day = j;
+                            daysUnavailable = wakure.availablesDays.includes(day)
+                                ? [day]
+                                : null;
+                            if (daysUnavailable === null) {
+                                console.log("el wakure " + wakure.name + " no esta disponible");
+                                wakureUnavailable.push(wakure.id);
+                                break;
+                            }
+                        }
+                    }
+                }
+                // check if wakure is available
             }
             catch (error) {
                 console.log(error);
@@ -121,11 +138,14 @@ class BookingController {
                 return;
             }
             // create object to send
+            wakuresAva = wakuresAva.filter((wakure) => !wakureUnavailable.includes(wakure.id));
             const availability = {
                 wakuresAvailable: wakuresAva,
                 wakuresUnavailable: wakuresUnava,
             };
             res.status(200).json(availability);
+            console.log("======================================");
+            console.log(availability);
             // reset arrays
             wakureUnavailable = [];
             wakureAvailable = [];

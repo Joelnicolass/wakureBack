@@ -40,7 +40,8 @@ class WakureController {
           lat: -27.37008,
           lng: -55.99201,
         },
-        hasOwner: true,
+        hasOwner: false,
+        availablesDays: [0, 1, 2, 3, 4, 5, 6],
         statusDB: true,
       };
 

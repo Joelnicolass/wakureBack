@@ -25,6 +25,10 @@ const wakureSchema = new mongoose.Schema<IWakure>({
     type: Boolean,
     required: true,
   },
+  availablesDays: {
+    type: [Number],
+    required: true,
+  },
   statusDB: {
     type: Boolean,
     required: true,

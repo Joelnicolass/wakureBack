@@ -10,6 +10,7 @@ class WakureModel {
         name: wakure.name,
         geolocation: wakure.geolocation,
         hasOwner: wakure.hasOwner,
+        availablesDays: wakure.availablesDays,
         statusDB: true,
       });
       return await newWakure.save();
