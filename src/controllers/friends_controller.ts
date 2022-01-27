@@ -88,7 +88,10 @@ class FriendsController {
       return;
     }
 
-    // create object user for friend
+    // create object user for friend\
+
+    //TODO generate aleatory password
+    let password;
 
     friend = <IUser>{
       name: name,
@@ -119,6 +122,9 @@ class FriendsController {
     try {
       const owner = await UserModel.addUserToFriendsId(id, friend?.id);
       res.status(200).json({ owner });
+      // TODO send email
+
+      return;
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error" });

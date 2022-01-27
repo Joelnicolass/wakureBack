@@ -362,6 +362,57 @@ class BookingController {
             res.status(200).json(tickets);
         });
     }
+    // update wakure available days
+    updateWakureAvailableDays(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { days, wakureId } = req.body;
+            const { userId } = req.params;
+            // get wakure
+            let wakure;
+            try {
+                wakure = yield wakure_model_1.default.getWakureById(wakureId);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            if (wakure === null) {
+                res.status(400).json({ msg: "wakure not found" });
+                return;
+            }
+            // get user info
+            let user;
+            try {
+                user = yield user_model_1.default.getUserById(userId);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // verify if the user is the owner of the ticket
+            if (user === null) {
+                res.status(400).json({ msg: "user not found" });
+                return;
+            }
+            const userWakures = user.owner_products_id;
+            if (!userWakures.includes(wakure.id)) {
+                res.status(400).json({ msg: "you are not the owner of the wakure" });
+                return;
+            }
+            // update wakure available days
+            try {
+                const newWakure = yield wakure_model_1.default.updateAvailablesDaysWakure(wakureId, days);
+                res.status(200).json(newWakure);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).send(error);
+                return;
+            }
+        });
+    }
 }
 exports.bookingController = new BookingController();
 //# sourceMappingURL=booking_controller.js.map

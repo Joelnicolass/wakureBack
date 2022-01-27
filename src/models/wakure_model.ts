@@ -130,6 +130,24 @@ class WakureModel {
     }
     return null;
   }
+
+  // update availablesDays wakure
+
+  public static async updateAvailablesDaysWakure(
+    availablesDays: number[],
+    id: string
+  ): Promise<IWakure | null> {
+    try {
+      return await Wakure.findOneAndUpdate(
+        { id: id },
+        { availablesDays: availablesDays },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  }
 }
 
 export default WakureModel;

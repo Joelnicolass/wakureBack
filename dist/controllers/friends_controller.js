@@ -93,7 +93,9 @@ class FriendsController {
                 res.status(500).json({ msg: "error" });
                 return;
             }
-            // create object user for friend
+            // create object user for friend\
+            //TODO generate aleatory password
+            let password;
             friend = {
                 name: name,
                 surname: surname,
@@ -121,6 +123,8 @@ class FriendsController {
             try {
                 const owner = yield user_model_1.default.addUserToFriendsId(id, friend === null || friend === void 0 ? void 0 : friend.id);
                 res.status(200).json({ owner });
+                // TODO send email
+                return;
             }
             catch (error) {
                 console.log(error);

@@ -131,6 +131,18 @@ class WakureModel {
             return null;
         });
     }
+    // update availablesDays wakure
+    static updateAvailablesDaysWakure(availablesDays, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { availablesDays: availablesDays }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
 }
 exports.default = WakureModel;
 //# sourceMappingURL=wakure_model.js.map

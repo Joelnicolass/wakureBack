@@ -12,5 +12,7 @@ router.post("/:id/add", booking_controller_1.bookingController.createTicket);
 router.put("/:id/updatestatus", booking_controller_1.bookingController.updateStatus);
 // get all tickets when status = PENDING ----------------------------------------------------------
 router.get("/:id/all", booking_controller_1.bookingController.getAllTickets);
+// update availability days wakure ----------------------------------------------------------
+router.put("/:id/availabledays", booking_controller_1.bookingController.updateWakureAvailableDays);
 exports.default = router;
 //# sourceMappingURL=booking_router.js.map

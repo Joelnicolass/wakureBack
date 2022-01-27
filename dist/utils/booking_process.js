@@ -10,7 +10,6 @@ class BookingUtils {
                 const day = daysBooking[j];
                 daysUnavailable = wakure.availablesDays.includes(day) ? [day] : null;
                 if (daysUnavailable === null) {
-                    console.log("falta");
                     wakuresUnavailableIds.push(wakure.id);
                 }
             }
