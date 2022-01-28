@@ -132,10 +132,10 @@ class WakureModel {
         });
     }
     // update availablesDays wakure
-    static updateAvailablesDaysWakure(availablesDays, id) {
+    static updateAvailablesDaysWakure(days, id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { availablesDays: availablesDays }, { new: true });
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { availablesDays: days }, { new: true });
             }
             catch (error) {
                 console.log(error);

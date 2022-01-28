@@ -134,13 +134,13 @@ class WakureModel {
   // update availablesDays wakure
 
   public static async updateAvailablesDaysWakure(
-    availablesDays: number[],
+    days: number[],
     id: string
   ): Promise<IWakure | null> {
     try {
       return await Wakure.findOneAndUpdate(
         { id: id },
-        { availablesDays: availablesDays },
+        { availablesDays: days },
         { new: true }
       );
     } catch (error) {

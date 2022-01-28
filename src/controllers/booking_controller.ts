@@ -477,7 +477,7 @@ class BookingController {
     res: Response
   ): Promise<void> {
     const { days, wakureId } = req.body;
-    const { userId } = req.params;
+    const { id } = req.params;
 
     // get wakure
     let wakure: IWakure | null;
@@ -499,7 +499,7 @@ class BookingController {
 
     let user: IUser | null;
     try {
-      user = await UserModel.getUserById(userId);
+      user = await UserModel.getUserById(id);
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error" });
@@ -519,11 +519,13 @@ class BookingController {
       return;
     }
 
+    days as number[];
+    console.log(days);
     // update wakure available days
     try {
       const newWakure = await WakureModel.updateAvailablesDaysWakure(
-        wakureId,
-        days
+        days,
+        wakureId
       );
       res.status(200).json(newWakure);
     } catch (error) {
@@ -538,9 +540,6 @@ class BookingController {
     req: Request,
     res: Response
   ): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    console.log("process");
     const { id } = req.params;
     const { wakureId } = req.body;
 

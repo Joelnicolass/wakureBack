@@ -366,7 +366,7 @@ class BookingController {
     updateWakureAvailableDays(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { days, wakureId } = req.body;
-            const { userId } = req.params;
+            const { id } = req.params;
             // get wakure
             let wakure;
             try {
@@ -384,7 +384,7 @@ class BookingController {
             // get user info
             let user;
             try {
-                user = yield user_model_1.default.getUserById(userId);
+                user = yield user_model_1.default.getUserById(id);
             }
             catch (error) {
                 console.log(error);
@@ -401,9 +401,11 @@ class BookingController {
                 res.status(400).json({ msg: "you are not the owner of the wakure" });
                 return;
             }
+            days;
+            console.log(days);
             // update wakure available days
             try {
-                const newWakure = yield wakure_model_1.default.updateAvailablesDaysWakure(wakureId, days);
+                const newWakure = yield wakure_model_1.default.updateAvailablesDaysWakure(days, wakureId);
                 res.status(200).json(newWakure);
             }
             catch (error) {
@@ -416,8 +418,6 @@ class BookingController {
     // get available days wakure
     getWakureAvailableDays(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield new Promise((resolve) => setTimeout(resolve, 2000));
-            console.log("process");
             const { id } = req.params;
             const { wakureId } = req.body;
             // check if user is the owner of the wakure
