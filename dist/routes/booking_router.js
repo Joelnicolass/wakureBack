@@ -14,5 +14,7 @@ router.put("/:id/updatestatus", booking_controller_1.bookingController.updateSta
 router.get("/:id/all", booking_controller_1.bookingController.getAllTickets);
 // update availability days wakure ----------------------------------------------------------
 router.put("/:id/availabledays", booking_controller_1.bookingController.updateWakureAvailableDays);
+// get available days wakure ----------------------------------------------------------
+router.post("/:id/getavailabledays", booking_controller_1.bookingController.getWakureAvailableDays);
 exports.default = router;
 //# sourceMappingURL=booking_router.js.map

@@ -15,5 +15,7 @@ router.put("/:id/updatestatus", bookingController.updateStatus);
 router.get("/:id/all", bookingController.getAllTickets);
 // update availability days wakure ----------------------------------------------------------
 router.put("/:id/availabledays", bookingController.updateWakureAvailableDays);
+// get available days wakure ----------------------------------------------------------
+router.post("/:id/getavailabledays", bookingController.getWakureAvailableDays);
 
 export default router;

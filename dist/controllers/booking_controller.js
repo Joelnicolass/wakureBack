@@ -413,6 +413,52 @@ class BookingController {
             }
         });
     }
+    // get available days wakure
+    getWakureAvailableDays(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield new Promise((resolve) => setTimeout(resolve, 2000));
+            console.log("process");
+            const { id } = req.params;
+            const { wakureId } = req.body;
+            // check if user is the owner of the wakure
+            let wakure;
+            try {
+                wakure = yield wakure_model_1.default.getWakureById(wakureId);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            if (wakure === null) {
+                res.status(400).json({ msg: "wakure not found" });
+                return;
+            }
+            // get user info
+            let user;
+            try {
+                user = yield user_model_1.default.getUserById(id);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // verify if the user is the owner of the ticket
+            if (user === null) {
+                res.status(400).json({ msg: "user not found" });
+                return;
+            }
+            const userWakures = user.owner_products_id;
+            if (!userWakures.includes(wakure.id)) {
+                res.status(400).json({ msg: "you are not the owner of the wakure" });
+                return;
+            }
+            // get wakure available days
+            res.status(200).json(wakure);
+            return;
+        });
+    }
 }
 exports.bookingController = new BookingController();
 //# sourceMappingURL=booking_controller.js.map

@@ -532,6 +532,63 @@ class BookingController {
       return;
     }
   }
+
+  // get available days wakure
+  public async getWakureAvailableDays(
+    req: Request,
+    res: Response
+  ): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    console.log("process");
+    const { id } = req.params;
+    const { wakureId } = req.body;
+
+    // check if user is the owner of the wakure
+    let wakure: IWakure | null;
+
+    try {
+      wakure = await WakureModel.getWakureById(wakureId);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    if (wakure === null) {
+      res.status(400).json({ msg: "wakure not found" });
+      return;
+    }
+
+    // get user info
+
+    let user: IUser | null;
+    try {
+      user = await UserModel.getUserById(id);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // verify if the user is the owner of the ticket
+    if (user === null) {
+      res.status(400).json({ msg: "user not found" });
+      return;
+    }
+
+    const userWakures = user.owner_products_id;
+
+    if (!userWakures.includes(wakure.id)) {
+      res.status(400).json({ msg: "you are not the owner of the wakure" });
+      return;
+    }
+
+    // get wakure available days
+
+    res.status(200).json(wakure);
+    return;
+  }
 }
 
 export const bookingController = new BookingController();
