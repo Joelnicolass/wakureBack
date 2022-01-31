@@ -272,18 +272,29 @@ class BookingController {
                     return;
                 }
             }
+            // parse price to number
+            let price;
+            try {
+                price = parseInt(body.price);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
             // create ticket object
             const newTicket = {
                 id_owner: id,
                 id_client: body.id_client,
                 id_wakure: body.id_wakure,
-                price: body.price,
+                price: price,
                 dateFrom: body.dateFrom,
                 dateTo: body.dateTo,
                 timeFrom: body.timeFrom,
                 timeTo: body.timeTo,
                 status: ticket_status_enum_1.TicketStatus.PENDING,
             };
+            console.log(newTicket);
             // create ticket in DB
             try {
                 const newTicketSave = yield ticket_model_1.default.createTicket(newTicket);
