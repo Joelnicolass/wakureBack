@@ -246,7 +246,7 @@ class TicketModel {
     static updateStatus(id_ticket, status) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield ticket_schema_1.default.findOneAndUpdate({ id_ticket }, { status }, { new: true });
+                return yield ticket_schema_1.default.findOneAndUpdate({ _id: id_ticket }, { status: status }, { new: true });
             }
             catch (error) {
                 console.log(error);
