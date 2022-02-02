@@ -184,8 +184,8 @@ class TicketModel {
   ): Promise<ITicket | null> {
     try {
       return await Ticket.findOneAndUpdate(
-        { id_ticket },
-        { status },
+        { _id: id_ticket },
+        { status: status },
         { new: true }
       );
     } catch (error) {
