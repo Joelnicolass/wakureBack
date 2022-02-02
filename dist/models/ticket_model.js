@@ -102,6 +102,112 @@ class TicketModel {
             return null;
         });
     }
+    // get all tickets when status is not ARCHIVED and id_owner = id_owner and join with collection wakures with lookup
+    static getAllTicketsByIdOwnerNotArchived(id_owner) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield ticket_schema_1.default.aggregate([
+                    {
+                        $lookup: {
+                            from: "wakures",
+                            localField: "id_wakure",
+                            foreignField: "id",
+                            as: "wakure",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: "users",
+                            let: { searchId: { $toObjectId: "$id_client" } },
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $eq: ["$_id", "$$searchId"],
+                                        },
+                                    },
+                                },
+                                {
+                                    $project: {
+                                        _id: 0,
+                                        name: 1,
+                                        surname: 1,
+                                        email: 1,
+                                        phone: 1,
+                                        address: 1,
+                                    },
+                                },
+                            ],
+                            as: "client",
+                        },
+                    },
+                    {
+                        $match: {
+                            status: { $ne: "ARCHIVED" },
+                            id_owner: id_owner,
+                        },
+                    },
+                ]);
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // get all tickets when status = ARCHIVED and id_owner = id_owner and join with collection wakures with lookup
+    static getAllTicketsByIdOwnerArchived(id_owner) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield ticket_schema_1.default.aggregate([
+                    {
+                        $lookup: {
+                            from: "wakures",
+                            localField: "id_wakure",
+                            foreignField: "id",
+                            as: "wakure",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: "users",
+                            let: { searchId: { $toObjectId: "$id_client" } },
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $eq: ["$_id", "$$searchId"],
+                                        },
+                                    },
+                                },
+                                {
+                                    $project: {
+                                        _id: 0,
+                                        name: 1,
+                                        surname: 1,
+                                        email: 1,
+                                        phone: 1,
+                                        address: 1,
+                                    },
+                                },
+                            ],
+                            as: "client",
+                        },
+                    },
+                    {
+                        $match: {
+                            status: "ARCHIVED",
+                            id_owner: id_owner,
+                        },
+                    },
+                ]);
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
     /* public static async getAllTicketsByIdOwner(
       id_owner: string
     ): Promise<ITicket[] | null> {

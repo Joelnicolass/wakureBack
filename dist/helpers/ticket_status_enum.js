@@ -8,5 +8,6 @@ var TicketStatus;
     TicketStatus["CANCELLED"] = "CANCELLED";
     TicketStatus["EXPIRED"] = "EXPIRED";
     TicketStatus["PAID"] = "PAID";
+    TicketStatus["ARCHIVED"] = "ARCHIVED";
 })(TicketStatus = exports.TicketStatus || (exports.TicketStatus = {}));
 //# sourceMappingURL=ticket_status_enum.js.map

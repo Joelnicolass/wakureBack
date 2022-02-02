@@ -359,7 +359,7 @@ class BookingController {
             const { id } = req.params;
             let tickets;
             try {
-                tickets = yield ticket_model_1.default.getAllTicketsByIdOwner(id);
+                tickets = yield ticket_model_1.default.getAllTicketsByIdOwnerNotArchived(id);
             }
             catch (error) {
                 console.log(error);
