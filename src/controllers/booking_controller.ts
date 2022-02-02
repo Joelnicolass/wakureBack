@@ -468,7 +468,7 @@ class BookingController {
     let tickets: Array<ITicket> | null;
 
     try {
-      tickets = await TicketModel.getAllTicketsByIdOwner(id);
+      tickets = await TicketModel.getAllTicketsByIdOwnerNotArchived(id);
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "error" });

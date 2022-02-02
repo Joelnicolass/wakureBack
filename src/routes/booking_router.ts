@@ -5,15 +5,15 @@ const router = Router();
 
 // routes
 
-// verify availability ----------------------------------------------------------
+// verify availability ----------------------------------------------------------------
 router.post("/:id/verify", bookingController.verifyAvailability);
-// create ticket ----------------------------------------------------------
+// create ticket ----------------------------------------------------------------------
 router.post("/:id/add", bookingController.createTicket);
-// update ticket status ----------------------------------------------------------
+// update ticket status ---------------------------------------------------------------
 router.put("/:id/updatestatus", bookingController.updateStatus);
-// get all tickets when status = PENDING ----------------------------------------------------------
+// get all tickets when status not equal to ARCHIVED ----------------------------------
 router.get("/:id/all", bookingController.getAllTickets);
-// update availability days wakure ----------------------------------------------------------
+// update availability days wakure ----------------------------------------------------
 router.put("/:id/availabledays", bookingController.updateWakureAvailableDays);
 // get available days wakure ----------------------------------------------------------
 router.post("/:id/getavailabledays", bookingController.getWakureAvailableDays);

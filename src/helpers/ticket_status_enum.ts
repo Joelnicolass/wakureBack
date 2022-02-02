@@ -4,4 +4,5 @@ export enum TicketStatus {
   CANCELLED = "CANCELLED",
   EXPIRED = "EXPIRED",
   PAID = "PAID",
+  ARCHIVED = "ARCHIVED",
 }
