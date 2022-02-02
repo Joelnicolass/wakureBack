@@ -417,6 +417,26 @@ class BookingController {
     }
   }
 
+  // get all tickets when status = ARCHIVED
+  public async getAllArchivedTickets(req: Request, res: Response) {
+    const id = req.params.id;
+
+    let tickets: Array<ITicket> | null;
+    try {
+      tickets = await TicketModel.getAllTicketsByIdOwnerArchived(id);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    if (tickets !== null) {
+      res.status(200).json(tickets);
+    } else {
+      res.status(404).json({ msg: "not found" });
+    }
+  }
+
   // update ticket status
   public async updateStatus(req: Request, res: Response): Promise<void> {
     // id

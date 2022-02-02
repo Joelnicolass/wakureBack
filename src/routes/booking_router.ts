@@ -17,5 +17,7 @@ router.get("/:id/all", bookingController.getAllTickets);
 router.put("/:id/availabledays", bookingController.updateWakureAvailableDays);
 // get available days wakure ----------------------------------------------------------
 router.post("/:id/getavailabledays", bookingController.getWakureAvailableDays);
+// get all tickets when status is ARCHIVED --------------------------------------------
+router.get("/:id/archived", bookingController.getAllArchivedTickets);
 
 export default router;

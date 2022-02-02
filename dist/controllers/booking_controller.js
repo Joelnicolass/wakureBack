@@ -315,6 +315,27 @@ class BookingController {
             }
         });
     }
+    // get all tickets when status = ARCHIVED
+    getAllArchivedTickets(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const id = req.params.id;
+            let tickets;
+            try {
+                tickets = yield ticket_model_1.default.getAllTicketsByIdOwnerArchived(id);
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            if (tickets !== null) {
+                res.status(200).json(tickets);
+            }
+            else {
+                res.status(404).json({ msg: "not found" });
+            }
+        });
+    }
     // update ticket status
     updateStatus(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
