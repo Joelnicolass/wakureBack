@@ -27,6 +27,25 @@ class Validator {
     }
     return true;
   }
+  // validate fields to create friend
+
+  public static fieldsCreateFriend(body: IUser): boolean {
+    if (
+      !body.name ||
+      !body.surname ||
+      !body.address ||
+      !body.phone ||
+      !body.email ||
+      body.name === "" ||
+      body.surname === "" ||
+      body.address === "" ||
+      body.phone === "" ||
+      body.email === ""
+    ) {
+      return false;
+    }
+    return true;
+  }
 
   // validate length password
 

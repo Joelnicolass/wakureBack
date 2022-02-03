@@ -16,14 +16,14 @@ class AuthController {
 
     if (!Validator.fieldsCreateUser(body)) {
       res.status(400).json({
-        msg: "All fields are required",
+        msg: "Todos los campos son requeridos",
       });
       return;
     }
 
     if (!Validator.validateLength(body)) {
       res.status(400).json({
-        msg: "Password must be at least 6 characters",
+        msg: "La constraseña debe tener al menos 6 caracteres",
       });
       return;
     }
@@ -33,7 +33,7 @@ class AuthController {
     try {
       if (await Validator.verifyEmail(body.email)) {
         res.status(400).json({
-          msg: "Email already exists",
+          msg: "El email ya existe",
         });
         return;
       }
@@ -94,7 +94,7 @@ class AuthController {
 
     if (!Validator.fieldsLoginUser(body)) {
       res.status(400).json({
-        msg: "Email and password are required",
+        msg: "Email y contraseña requeridos",
       });
       return;
     }
@@ -104,7 +104,7 @@ class AuthController {
     try {
       if (!(await Validator.verifyEmail(body.email))) {
         res.status(400).json({
-          msg: "User does not exist",
+          msg: "El usuario no es válido",
         });
 
         return;
@@ -125,7 +125,7 @@ class AuthController {
 
         if (!matchPassword) {
           res.status(400).json({
-            msg: "Password is incorrect",
+            msg: "La contraseña es incorrecta",
           });
 
           return;

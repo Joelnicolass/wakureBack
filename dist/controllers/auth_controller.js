@@ -26,13 +26,13 @@ class AuthController {
             // validate
             if (!validator_1.default.fieldsCreateUser(body)) {
                 res.status(400).json({
-                    msg: "All fields are required",
+                    msg: "Todos los campos son requeridos",
                 });
                 return;
             }
             if (!validator_1.default.validateLength(body)) {
                 res.status(400).json({
-                    msg: "Password must be at least 6 characters",
+                    msg: "La constraseña debe tener al menos 6 caracteres",
                 });
                 return;
             }
@@ -40,7 +40,7 @@ class AuthController {
             try {
                 if (yield validator_1.default.verifyEmail(body.email)) {
                     res.status(400).json({
-                        msg: "Email already exists",
+                        msg: "El email ya existe",
                     });
                     return;
                 }
@@ -90,7 +90,7 @@ class AuthController {
             // validate fields
             if (!validator_1.default.fieldsLoginUser(body)) {
                 res.status(400).json({
-                    msg: "Email and password are required",
+                    msg: "Email y contraseña requeridos",
                 });
                 return;
             }
@@ -98,7 +98,7 @@ class AuthController {
             try {
                 if (!(yield validator_1.default.verifyEmail(body.email))) {
                     res.status(400).json({
-                        msg: "User does not exist",
+                        msg: "El usuario no es válido",
                     });
                     return;
                 }
@@ -116,7 +116,7 @@ class AuthController {
                     const matchPassword = yield user.matchPassword(body.password);
                     if (!matchPassword) {
                         res.status(400).json({
-                            msg: "Password is incorrect",
+                            msg: "La contraseña es incorrecta",
                         });
                         return;
                     }

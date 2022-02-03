@@ -64,6 +64,7 @@ class FriendsController {
   }
 
   public async quickAddFriend(req: Request, res: Response): Promise<void> {
+    const { body } = req;
     const { name, surname, email, address, phone } = req.body;
     const { id } = req.params;
 
@@ -79,6 +80,35 @@ class FriendsController {
       if (!owner) {
         res.status(400).json({
           msg: "user not exists",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+        // validate
+        try {
+        if (!Validator.fieldsCreateFriend(body)) {
+          res.status(400).json({
+            msg: "Todos los campos son requeridos",
+          });
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: "error" });
+        return;
+      }
+
+         // verify if email exists
+
+    try {
+      if (await Validator.verifyEmail(body.email)) {
+        res.status(400).json({
+          msg: "El email ya existe",
         });
         return;
       }
