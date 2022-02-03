@@ -23,14 +23,14 @@ class WakureController {
             // validate
             if (!validator_1.default.fieldsCreateWakure(body)) {
                 res.status(400).json({
-                    msg: "name and description are required",
+                    msg: "Todos los campos son requeridos",
                 });
                 return;
             }
             // verify if wakure exists
             if (yield validator_1.default.verifyWakure(body.id)) {
                 res.status(400).json({
-                    msg: "wakure already exists",
+                    msg: "El Wakure ya existe",
                 });
                 return;
             }
@@ -70,7 +70,7 @@ class WakureController {
             // verify if wakure exists
             if (!(yield validator_1.default.verifyWakure(id))) {
                 res.status(400).json({
-                    msg: "wakure does not exists",
+                    msg: "El Wakure ya existe",
                 });
                 return;
             }
@@ -80,7 +80,7 @@ class WakureController {
                 wakure = yield wakure_model_1.default.getWakureById(id);
                 if (wakure == null) {
                     res.status(400).json({
-                        msg: "wakure does not exists",
+                        msg: "El Wakure ya existe",
                     });
                     return;
                 }
@@ -125,7 +125,7 @@ class WakureController {
             // verify if wakure exists
             if (!(yield validator_1.default.verifyWakure(id))) {
                 res.status(400).json({
-                    msg: "wakure does not exists",
+                    msg: "El Wakure no existe",
                 });
                 return;
             }
@@ -170,7 +170,7 @@ class WakureController {
             try {
                 if (!(yield validator_1.default.verifyWakure(id))) {
                     res.status(400).json({
-                        msg: "wakure does not exists",
+                        msg: "El wakure no existe",
                     });
                     return;
                 }

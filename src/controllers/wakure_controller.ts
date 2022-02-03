@@ -14,7 +14,7 @@ class WakureController {
 
     if (!Validator.fieldsCreateWakure(body)) {
       res.status(400).json({
-        msg: "name and description are required",
+        msg: "Todos los campos son requeridos",
       });
       return;
     }
@@ -23,7 +23,7 @@ class WakureController {
 
     if (await Validator.verifyWakure(body.id)) {
       res.status(400).json({
-        msg: "wakure already exists",
+        msg: "El Wakure ya existe",
       });
       return;
     }
@@ -72,7 +72,7 @@ class WakureController {
 
     if (!(await Validator.verifyWakure(id))) {
       res.status(400).json({
-        msg: "wakure does not exists",
+        msg: "El Wakure ya existe",
       });
       return;
     }
@@ -85,7 +85,7 @@ class WakureController {
       wakure = await WakureModel.getWakureById(id);
       if (wakure == null) {
         res.status(400).json({
-          msg: "wakure does not exists",
+          msg: "El Wakure ya existe",
         });
         return;
       }
@@ -138,7 +138,7 @@ class WakureController {
 
     if (!(await Validator.verifyWakure(id))) {
       res.status(400).json({
-        msg: "wakure does not exists",
+        msg: "El Wakure no existe",
       });
       return;
     }
@@ -185,7 +185,7 @@ class WakureController {
     try {
       if (!(await Validator.verifyWakure(id))) {
         res.status(400).json({
-          msg: "wakure does not exists",
+          msg: "El wakure no existe",
         });
         return;
       }

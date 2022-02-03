@@ -159,6 +159,12 @@ class UserController {
             const { id } = req.params;
             const { body } = req;
             //validates
+            if (!validator_1.default.fieldsCreateWakure(body)) {
+                res.status(400).json({
+                    msg: "Todos los campos son requeridos",
+                });
+                return;
+            }
             // verify if user exist
             let user;
             try {
@@ -180,7 +186,7 @@ class UserController {
                 const wakure = yield validator_1.default.verifyWakureAndOwner(body.id);
                 if (!wakure) {
                     res.status(400).json({
-                        msg: "wakure does not exist or it has not owner",
+                        msg: "El Wakure no existe o ya tiene dueño",
                     });
                     return;
                 }
@@ -246,7 +252,7 @@ class UserController {
                 const wakure = yield validator_1.default.verifyWakureHasNotOwner(code);
                 if (!wakure) {
                     res.status(400).json({
-                        msg: "wakure does not exist or it has owner",
+                        msg: "El Wakure no existe o ya tiene dueño",
                     });
                     return;
                 }
@@ -293,7 +299,7 @@ class UserController {
             // verify if wakure exists
             if (!(yield validator_1.default.verifyWakure(code))) {
                 res.status(400).json({
-                    msg: "wakure does not exists",
+                    msg: "El Wakure no existe",
                 });
                 return;
             }
