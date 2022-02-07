@@ -282,6 +282,40 @@ class BookingController {
                 res.status(500).json({ msg: "error" });
                 return;
             }
+            // mercado pago integration
+            // SDK de Mercado Pago
+            const mercadopago = require("mercadopago");
+            // Agrega credenciales
+            mercadopago.configure({
+                access_token: body.access_token,
+            });
+            // Crea un objeto de preferencia
+            let preference = {
+                items: [
+                    {
+                        title: body.id_wakure,
+                        currency_id: "ARS",
+                        unit_price: price,
+                        quantity: 1,
+                    },
+                ],
+            };
+            // Crea una preferencia en MP
+            let preferenceResult;
+            let paymentLink;
+            try {
+                preferenceResult = yield mercadopago.preferences.create(preference);
+                paymentLink = preferenceResult.body.init_point;
+                if (paymentLink === null) {
+                    res.status(500).json({ msg: "mercado pago error" });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
             // create ticket object
             const newTicket = {
                 id_owner: id,
@@ -292,9 +326,9 @@ class BookingController {
                 dateTo: body.dateTo,
                 timeFrom: body.timeFrom,
                 timeTo: body.timeTo,
+                paymentLink: paymentLink,
                 status: ticket_status_enum_1.TicketStatus.PENDING,
             };
-            console.log(newTicket);
             // create ticket in DB
             try {
                 const newTicketSave = yield ticket_model_1.default.createTicket(newTicket);

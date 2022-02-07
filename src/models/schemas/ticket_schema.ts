@@ -34,6 +34,10 @@ const ticketSchema = new mongoose.Schema<ITicket>({
     type: String,
     required: true,
   },
+  paymentLink: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
     required: true,

@@ -9,8 +9,9 @@ export interface ITicket extends mongoose.Document {
   id_wakure: string;
   price: number;
   dateFrom: string;
-  dateTo: string; //TODO change to moement object
-  timeFrom: string; //TODO change to moement object
-  timeTo: string; //TODO change to moement object6
+  dateTo: string;
+  timeFrom: string;
+  timeTo: string;
+  paymentLink: string;
   status: string;
 }

@@ -37,6 +37,10 @@ const ticketSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    paymentLink: {
+        type: String,
+        required: true,
+    },
     status: {
         type: String,
         required: true,

@@ -14,6 +14,7 @@ class TicketModel {
         dateTo: ticket.dateTo,
         timeFrom: ticket.timeFrom,
         timeTo: ticket.timeTo,
+        paymentLink: ticket.paymentLink,
         status: ticket.status,
       });
       return await newTicket.save();
