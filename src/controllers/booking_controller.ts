@@ -382,11 +382,16 @@ class BookingController {
 
     // mercado pago integration
 
+    console.log(body);
+
     // SDK de Mercado Pago
     const mercadopago = require("mercadopago");
     // Agrega credenciales
     mercadopago.configure({
-      access_token: body.access_token,
+      //access_token: body.access_token,
+
+      access_token:
+        "APP_USR-6024756927170059-020712-e298a0cc71bffc97e62e0e29e71d72f8-830084754",
     });
 
     // Crea un objeto de preferencia
