@@ -26,13 +26,13 @@ class AuthController {
             // validate
             if (!validator_1.default.fieldsCreateUser(body)) {
                 res.status(400).json({
-                    msg: "name and password are required",
+                    msg: "Todos los campos son requeridos",
                 });
                 return;
             }
             if (!validator_1.default.validateLength(body)) {
                 res.status(400).json({
-                    msg: "password must be at least 6 characters",
+                    msg: "La constraseña debe tener al menos 6 caracteres",
                 });
                 return;
             }
@@ -40,7 +40,7 @@ class AuthController {
             try {
                 if (yield validator_1.default.verifyEmail(body.email)) {
                     res.status(400).json({
-                        msg: "email already exists",
+                        msg: "El email ya existe",
                     });
                     return;
                 }
@@ -60,9 +60,11 @@ class AuthController {
                 phone: body.phone,
                 email: body.email,
                 password: body.password,
-                role: roles_enum_1.Roles.OWNER,
-                owner_products_id: ["w0001", "w0002", "w0003"],
+                role: roles_enum_1.Roles.CLIENT,
+                owner_products_id: [""],
                 client_products_id: [""],
+                ticket_id: [""],
+                friends_id: [""],
                 statusDB: true,
             };
             // save user
@@ -88,7 +90,7 @@ class AuthController {
             // validate fields
             if (!validator_1.default.fieldsLoginUser(body)) {
                 res.status(400).json({
-                    msg: "email and password are required",
+                    msg: "Email y contraseña requeridos",
                 });
                 return;
             }
@@ -96,7 +98,7 @@ class AuthController {
             try {
                 if (!(yield validator_1.default.verifyEmail(body.email))) {
                     res.status(400).json({
-                        msg: "user does not exist",
+                        msg: "El usuario no es válido",
                     });
                     return;
                 }
@@ -114,7 +116,7 @@ class AuthController {
                     const matchPassword = yield user.matchPassword(body.password);
                     if (!matchPassword) {
                         res.status(400).json({
-                            msg: "password is incorrect",
+                            msg: "La contraseña es incorrecta",
                         });
                         return;
                     }
@@ -135,9 +137,9 @@ class AuthController {
     // --------------------------------------------------------------
     signout(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.status(200).json({
-                msg: "signout",
-            });
+            // logout
+            res.status(200).json({ msg: "logout" });
+            return;
         });
     }
 }

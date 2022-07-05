@@ -10,5 +10,6 @@ export interface IWakure extends mongoose.Document {
     lng: number;
   };
   hasOwner: boolean;
+  availablesDays: number[];
   statusDB: boolean;
 }

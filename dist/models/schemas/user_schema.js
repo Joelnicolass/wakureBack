@@ -40,7 +40,7 @@ const userSchema = new mongoose_1.default.Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
+        /* unique: true, */
     },
     password: {
         type: String,
@@ -55,6 +55,14 @@ const userSchema = new mongoose_1.default.Schema({
         required: false,
     },
     client_products_id: {
+        type: [String],
+        required: false,
+    },
+    ticket_id: {
+        type: [String],
+        required: false,
+    },
+    friends_id: {
         type: [String],
         required: false,
     },

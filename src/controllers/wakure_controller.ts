@@ -14,7 +14,7 @@ class WakureController {
 
     if (!Validator.fieldsCreateWakure(body)) {
       res.status(400).json({
-        msg: "name and description are required",
+        msg: "Todos los campos son requeridos",
       });
       return;
     }
@@ -23,7 +23,7 @@ class WakureController {
 
     if (await Validator.verifyWakure(body.id)) {
       res.status(400).json({
-        msg: "wakure already exists",
+        msg: "El Wakure ya existe",
       });
       return;
     }
@@ -40,7 +40,8 @@ class WakureController {
           lat: -27.37008,
           lng: -55.99201,
         },
-        hasOwner: true,
+        hasOwner: false,
+        availablesDays: [0, 1, 2, 3, 4, 5, 6],
         statusDB: true,
       };
 
@@ -71,7 +72,7 @@ class WakureController {
 
     if (!(await Validator.verifyWakure(id))) {
       res.status(400).json({
-        msg: "wakure does not exists",
+        msg: "El Wakure ya existe",
       });
       return;
     }
@@ -84,7 +85,7 @@ class WakureController {
       wakure = await WakureModel.getWakureById(id);
       if (wakure == null) {
         res.status(400).json({
-          msg: "wakure does not exists",
+          msg: "El Wakure ya existe",
         });
         return;
       }
@@ -137,7 +138,7 @@ class WakureController {
 
     if (!(await Validator.verifyWakure(id))) {
       res.status(400).json({
-        msg: "wakure does not exists",
+        msg: "El Wakure no existe",
       });
       return;
     }
@@ -161,8 +162,46 @@ class WakureController {
   public async getAllWakures(req: Request, res: Response): Promise<void> {
     try {
       const wakures = await WakureModel.getAllWakures();
-      if (wakures!== null) {
+      if (wakures !== null) {
         res.status(200).json(wakures);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+  }
+
+  // delete -----------------------------------------------------
+
+  // delete wakure by id
+
+  public async deleteWakureById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    //validate if wakure exists
+
+    try {
+      if (!(await Validator.verifyWakure(id))) {
+        res.status(400).json({
+          msg: "El wakure no existe",
+        });
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ msg: "error" });
+      return;
+    }
+
+    // delete wakure
+
+    try {
+      if (await WakureModel.deleteWakureById(id)) {
+        res.status(200).json({
+          msg: "wakure deleted",
+        });
         return;
       }
     } catch (error) {

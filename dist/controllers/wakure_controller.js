@@ -23,14 +23,14 @@ class WakureController {
             // validate
             if (!validator_1.default.fieldsCreateWakure(body)) {
                 res.status(400).json({
-                    msg: "name and description are required",
+                    msg: "Todos los campos son requeridos",
                 });
                 return;
             }
             // verify if wakure exists
             if (yield validator_1.default.verifyWakure(body.id)) {
                 res.status(400).json({
-                    msg: "wakure already exists",
+                    msg: "El Wakure ya existe",
                 });
                 return;
             }
@@ -44,7 +44,8 @@ class WakureController {
                         lat: -27.37008,
                         lng: -55.99201,
                     },
-                    hasOwner: true,
+                    hasOwner: false,
+                    availablesDays: [0, 1, 2, 3, 4, 5, 6],
                     statusDB: true,
                 };
                 const result = yield wakure_model_1.default.addWakure(wakure);
@@ -69,7 +70,7 @@ class WakureController {
             // verify if wakure exists
             if (!(yield validator_1.default.verifyWakure(id))) {
                 res.status(400).json({
-                    msg: "wakure does not exists",
+                    msg: "El Wakure ya existe",
                 });
                 return;
             }
@@ -79,7 +80,7 @@ class WakureController {
                 wakure = yield wakure_model_1.default.getWakureById(id);
                 if (wakure == null) {
                     res.status(400).json({
-                        msg: "wakure does not exists",
+                        msg: "El Wakure ya existe",
                     });
                     return;
                 }
@@ -124,7 +125,7 @@ class WakureController {
             // verify if wakure exists
             if (!(yield validator_1.default.verifyWakure(id))) {
                 res.status(400).json({
-                    msg: "wakure does not exists",
+                    msg: "El Wakure no existe",
                 });
                 return;
             }
@@ -150,6 +151,41 @@ class WakureController {
                 const wakures = yield wakure_model_1.default.getAllWakures();
                 if (wakures !== null) {
                     res.status(200).json(wakures);
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+        });
+    }
+    // delete -----------------------------------------------------
+    // delete wakure by id
+    deleteWakureById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            //validate if wakure exists
+            try {
+                if (!(yield validator_1.default.verifyWakure(id))) {
+                    res.status(400).json({
+                        msg: "El wakure no existe",
+                    });
+                    return;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                res.status(500).json({ msg: "error" });
+                return;
+            }
+            // delete wakure
+            try {
+                if (yield wakure_model_1.default.deleteWakureById(id)) {
+                    res.status(200).json({
+                        msg: "wakure deleted",
+                    });
                     return;
                 }
             }

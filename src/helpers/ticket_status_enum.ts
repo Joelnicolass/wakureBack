@@ -1,0 +1,8 @@
+export enum TicketStatus {
+  PENDING = "PENDING",
+  CONFIRMED = "CONFIRMED",
+  CANCELLED = "CANCELLED",
+  EXPIRED = "EXPIRED",
+  PAID = "PAID",
+  ARCHIVED = "ARCHIVED",
+}

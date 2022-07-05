@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema<IUser>({
   email: {
     type: String,
     required: true,
-    unique: true,
+    /* unique: true, */
   },
   password: {
     type: String,
@@ -45,6 +45,14 @@ const userSchema = new mongoose.Schema<IUser>({
     required: false,
   },
   client_products_id: {
+    type: [String],
+    required: false,
+  },
+  ticket_id: {
+    type: [String],
+    required: false,
+  },
+  friends_id: {
     type: [String],
     required: false,
   },

@@ -23,6 +23,7 @@ class WakureModel {
                     name: wakure.name,
                     geolocation: wakure.geolocation,
                     hasOwner: wakure.hasOwner,
+                    availablesDays: wakure.availablesDays,
                     statusDB: true,
                 });
                 return yield newWakure.save();
@@ -70,8 +71,8 @@ class WakureModel {
             return null;
         });
     }
-    // delete wakure
-    static deleteWakure(id) {
+    // delete wakure by id
+    static deleteWakureById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield wakure_schema_1.default.findOneAndUpdate({ id }, { statusDB: false });
@@ -87,6 +88,54 @@ class WakureModel {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield wakure_schema_1.default.findOneAndUpdate({ id: wakure.id }, { geolocation: wakure.geolocation }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // update name wakure
+    static updateNameWakure(id, name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { name: name }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // update hasOwner wakure
+    static updateHasOwnerWakure(owner, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { hasOwner: owner }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // update name and hasOwner wakure
+    static updateNameAndHasOwnerWakure(name, owner, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { name: name, hasOwner: owner }, { new: true });
+            }
+            catch (error) {
+                console.log(error);
+            }
+            return null;
+        });
+    }
+    // update availablesDays wakure
+    static updateAvailablesDaysWakure(days, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield wakure_schema_1.default.findOneAndUpdate({ id: id }, { availablesDays: days }, { new: true });
             }
             catch (error) {
                 console.log(error);

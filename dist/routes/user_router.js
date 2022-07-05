@@ -10,6 +10,9 @@ router.get("/", user_controller_1.userController.getAllUsers);
 // get user by name -----------------------------------------------------
 // { name: string } -> { status 200, json user }
 router.get("/:name", user_controller_1.userController.getUserByName);
+// get user by id -----------------------------------------------------
+// { id: string } -> { status 200, json user }
+router.get("/id/:id", user_controller_1.userController.getUserById);
 //-------------------------------------------------------
 // get my wakures -----------------------------------------------------
 // consulta para obtener los datos de los wakures del usuario
@@ -21,6 +24,16 @@ router.delete("/:name", user_controller_1.userController.deleteUserByName);
 // update pass ----------------------------------------------------------
 // { name: string, password: string } -> { status 200, json user }
 router.put("/:name", user_controller_1.userController.updatePassword);
+//OWNER REQUESTS
+// add wakure ----------------------------------------------------------
+// { name: string, code: string } -> { status 200, json user }
+router.post("/:id/addwakure", user_controller_1.userController.addWakureToOwnerProductsId);
+//delete Wakure From Owner Products Id ----------------------------------------------------------
+// { id: string, code: string } -> { status 200, json user }
+router.delete("/:id/wakure/:code", user_controller_1.userController.deleteWakureFromOwnerProductsId);
+//update Wakure Name by Id
+// { id: string, name: string } -> { status 200, json wakure }
+router.put("/:id/wakure/:code", user_controller_1.userController.updateWakureNameById);
 // export
 exports.default = router;
 //# sourceMappingURL=user_router.js.map
